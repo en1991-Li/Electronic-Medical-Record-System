@@ -1,0 +1,134 @@
+<!-- 此頁面專門用來檢視特定病患的詳細醫療記錄(手術、住院、過敏、檢驗檢查記錄) -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Records</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="records.css">
+</head>
+<body>
+  <nav class="navbar">
+    <button onclick="window.location.href='index.html'">Login</button>
+    <button onclick="window.location.href='patients.html'">Patients</button>
+    <button classs="active">Records</button>
+    <button onclick="window.location.href='schedules.html'">Schedules</button>
+    <button onclick="window.location.href='resources.html'">MedicalResourceUsage</button>
+  </nav>
+
+  <div class="records-container">
+
+    <section class="patient-header-section">
+
+  <div class="patient-unified-card">
+
+    <div class="search-area">
+      <h4>查詢病患</h4>
+      <div class="search-input-group">
+        <input type="text" id="patientSearchInput" placeholder="輸入病歷號或姓名...">
+        <button id="searchPatientBtn">查詢</button>
+      </div>
+    </div>
+
+    <hr class="card-divider">
+
+    <div class="info-area">
+      <div class="avatar-placeholder"></div>
+      <h3 id="patientNameDisplay">請先查詢病患</h3>
+      <p id="patientIdDisplay">Patient ID: ---</p>
+    </div>
+
+  </div>
+
+</section>
+
+    <section class="records-section">
+  <div class="records-grid">
+    <div class="record-card">
+      <div class="card-header"><h4>手術記錄</h4></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="surgeryName">手術名稱</label>
+          <textarea id="surgeryName" rows="1" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="surgeryPart">手術部位</label>
+          <textarea id="surgeryPart" rows="1" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="surgerySuggestion">手術建議</label>
+          <textarea id="surgerySuggestion" rows="2" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="surgeryComplications">併發症</label>
+          <textarea id="surgeryComplications" rows="2" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="record-card">
+      <div class="card-header"><h4>住院記錄</h4></div>
+      <div class="card-body grid-2-col">
+        <div class="form-group"><label for="hospitalWard">病房名</label><input type="text" id="hospitalWard" disabled></div>
+        <div class="form-group"><label for="hospitalBedName">病床名</label><input type="text" id="hospitalBedName" disabled></div>
+        <div class="form-group"><label for="hospitalBedNumber">病床號</label><input type="text" id="hospitalBedNumber" disabled></div>
+        <div class="form-group"><label for="hospitalStayDays">住院天數</label><input type="text" id="hospitalStayDays" disabled></div>
+        <div class="form-group"><label for="admissionDate">住院日期</label><input type="text" id="admissionDate" placeholder="YYYY-MM-DD" disabled></div>
+        <div class="form-group"><label for="dischargeDate">出院日期</label><input type="text" id="dischargeDate" placeholder="YYYY-MM-DD" disabled></div>
+        <div class="form-group full-width"><label for="admissionReason">住院原因</label><input type="text" id="admissionReason" disabled></div>
+        <div class="form-group full-width"><label for="dischargeReason">出院原因</label><input type="text" id="dischargeReason" disabled></div>
+      </div>
+    </div>
+
+    <div class="record-card">
+      <div class="card-header"><h4>過敏記錄</h4></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="allergen">過敏原</label>
+          <textarea id="allergen" rows="1" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="allergySymptom">症狀</label>
+          <textarea id="allergySymptom" rows="1" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="allergySeverity">嚴重程度</label>
+          <textarea id="allergySeverity" rows="1" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="allergyNotes">備註</label>
+          <textarea id="allergyNotes" rows="2" disabled></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="record-card">
+      <div class="card-header"><h4>檢驗檢查紀錄</h4></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="labTestName">檢驗項目</label>
+          <textarea id="labTestName" rows="1" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="labTestDate">檢驗日期</label>
+          <input type="text" id="labTestDate" placeholder="YYYY-MM-DD" disabled>
+        </div>
+        <div class="form-group">
+          <label for="labTestResult">數值/結果</label>
+          <textarea id="labTestResult" rows="1" disabled></textarea>
+        </div>
+        <div class="form-group">
+          <label for="labTestSuggestion">醫師建議</label>
+          <textarea id="labTestSuggestion" rows="2" disabled></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </div>
+
+  <script src="records.js"></script>
+</body>
+</html>
