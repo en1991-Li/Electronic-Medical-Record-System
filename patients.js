@@ -5,9 +5,42 @@ let currentPatientId = null;
 let currentUser = null;
 let originalPatientData = null; 
 
-document.addEventListener('DOMContentLoaded', () => {
-    checkLoginStatus();
-    bindEvents();
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 取得按鈕元素
+    const newPatientBtn = document.getElementById('newPatientBtn');
+    const allInputs = document.querySelectorAll('.detail-input, .detail-select');
+    const saveBtn = document.getElementById('savePatientBtn');
+    const cancelBtn = document.getElementById('cancelEditBtn');
+
+    // 2. 點擊「新增病患」時的反應
+    if (newPatientBtn) {
+        newPatientBtn.addEventListener('click', function() {
+            // 清空所有欄位
+            allInputs.forEach(input => {
+                input.value = '';
+                input.disabled = false; // 解鎖輸入框，讓你可以打字
+            });
+
+            // 顯示「儲存」和「取消」按鈕，隱藏「新增」按鈕
+            saveBtn.style.display = 'inline-block';
+            cancelBtn.style.display = 'inline-block';
+            newPatientBtn.style.disabled = true; 
+            
+            alert('請開始輸入新病患資料');
+            document.getElementById('patientName').focus(); // 自動跳轉到姓名欄位
+        });
+    }
+
+    // 3. 點擊「取消編輯」
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            allInputs.forEach(input => {
+                input.disabled = true; // 重新鎖定
+            });
+            saveBtn.style.display = 'none';
+            cancelBtn.style.display = 'none';
+        });
+    }
 });
 
 function checkLoginStatus() {
