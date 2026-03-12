@@ -1,10 +1,4 @@
--- --------------------------------------------------------
--- 主機:                           127.0.0.1
--- 伺服器版本:                        8.0.44 - MySQL Community Server - GPL
--- 伺服器作業系統:                      Win64
--- HeidiSQL 版本:                  12.12.0.7122
--- --------------------------------------------------------
-
+-- -------------------------------------------------------
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8mb3 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
@@ -746,3 +740,4 @@ INSERT INTO `vaccinationrecords` (`VaccinationID`, `PatientID`, `StaffID`, `Vacc
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+
