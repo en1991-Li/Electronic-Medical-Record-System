@@ -203,14 +203,26 @@ function savePatientLocal() {
     document.getElementById('cancelEditBtn').style.display = 'none';
 }
 
-async function deletePatient() {
-    if (!confirm('確定要刪除此病患及其相關所有病歷嗎？')) return;
-    try {
-        const response = await fetch(`${API_BASE_URL}/records/${currentPatientId}`, { method: 'DELETE' });
-        if (!response.ok) throw new Error('刪除失敗');
-        alert('病患已成功刪除');
-        window.location.reload();
-    } catch (err) {
-        alert(err.message);
+async function deletePatientLocal() {
+    // 檢查目前是否有選中的病患
+    if (!currentPatientId) {
+        alert('請先搜尋並選擇一位要刪除的病患');
+        return;
+    }
+
+    if (confirm(`確定要刪除病患（身分證字號：${currentPatientId}）的所有資料嗎？此動作無法復原。`)) {
+        // 1. 從 localStorage 抓出清單
+        let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
+
+        // 2. 過濾掉目前這位病患
+        const updatedList = patientList.filter(p => p.ID_NUMBER !== currentPatientId);
+
+        // 3. 存回 localStorage
+        localStorage.setItem('patientList', JSON.stringify(updatedList));
+
+        alert('病患資料已成功刪除');
+
+        // 4. 清空畫面並重新整理
+        location.reload();
     }
 }
