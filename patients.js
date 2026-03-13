@@ -58,10 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 6. 刪除按鈕
+     // 重新整理按鈕：綁定 refreshPage 函數
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => location.reload());
+    }
+
+    // 刪除按鈕：綁定 deletePatientLocal 函數
     const deleteBtn = document.getElementById('deletePatientBtn');
     if (deleteBtn) {
-        deleteBtn.addEventListener('click', deletePatientLocal); // 建議也改成本地版
+        deleteBtn.addEventListener('click', deletePatientLocal);
     }
 });
 
