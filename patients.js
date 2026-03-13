@@ -7,14 +7,20 @@ let originalPatientData = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus(); // 檢查登入
-    
-    // --- 綁定按鈕 ---
+
+    // --- 綁定按鈕變數 ---
     const newPatientBtn = document.getElementById('newPatientBtn');
     const saveBtn = document.getElementById('savePatientBtn');
     const cancelBtn = document.getElementById('cancelEditBtn');
     const editBtn = document.getElementById('editPatientBtn');
+    const searchBtn = document.getElementById('searchBtn'); // 補上搜尋按鈕
 
-    // 點擊新增病患
+    // 1. 搜尋功能 (重要！)
+    if (searchBtn) {
+        searchBtn.addEventListener('click', searchPatient);
+    }
+
+    // 2. 點擊「新增病患」
     if (newPatientBtn) {
         newPatientBtn.addEventListener('click', function() {
             const allInputs = document.querySelectorAll('.detail-input, .detail-select');
@@ -24,13 +30,38 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             saveBtn.style.display = 'inline-block';
             cancelBtn.style.display = 'inline-block';
+            editBtn.style.display = 'none'; // 新增時不需要編輯按鈕
             alert('請輸入病患資料');
         });
     }
 
-    // 點擊儲存變更 (修改成以下邏輯)
+    // 3. 點擊「編輯資料」
+    if (editBtn) {
+        editBtn.addEventListener('click', () => toggleEditMode(true));
+    }
+
+    // 4. 點擊「儲存變更」
     if (saveBtn) {
         saveBtn.addEventListener('click', savePatientLocal); 
+    }
+
+    // 5. 點擊「取消編輯」
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            if (confirm('確定取消？資料將不會儲存')) {
+                const inputs = document.querySelectorAll('.detail-input, .detail-select');
+                inputs.forEach(input => input.disabled = true);
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+                if (originalPatientData) fillPatientFormLocal(originalPatientData);
+            }
+        });
+    }
+
+    // 6. 刪除按鈕
+    const deleteBtn = document.getElementById('deletePatientBtn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', deletePatientLocal); // 建議也改成本地版
     }
 });
 
