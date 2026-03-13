@@ -43,6 +43,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const saveBtn = document.getElementById('savePatientBtn');
+    const allInputs = document.querySelectorAll('.detail-input, .detail-select');
+
+    if (saveBtn) {
+        saveBtn.addEventListener('click', function() {
+            // 1. 抓取目前輸入框的所有資料
+            const newPatientData = {
+                name: document.getElementById('patientName').value,
+                gender: document.getElementById('patientGender').value,
+                birth: document.getElementById('patientBirth').value,
+                idNumber: document.getElementById('patientIdentityNumber').value,
+                phone: document.getElementById('patientPhone').value,
+                bloodType: document.getElementById('patientBloodType').value,
+                address: document.getElementById('patientAddress').value,
+                emergencyPhone: document.getElementById('EmergencyPhone').value,
+                badHabits: document.getElementById('patientBadHabits').value,
+                familyHistory: document.getElementById('patientFamilyHistory').value,
+                medicalHistory: document.getElementById('patientMedicalHistory').value,
+                allergy: document.getElementById('patientAllergy').value
+            };
+
+            // 2. 簡單驗證：姓名跟身分證不能是空的
+            if (!newPatientData.name || !newPatientData.idNumber) {
+                alert('姓名與身分證字號為必填項目！');
+                return;
+            }
+
+            // 3. 儲存到 localStorage (模擬資料庫存檔)
+            // 先抓出舊資料，再把新資料塞進去
+            let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
+            patientList.push(newPatientData);
+            localStorage.setItem('patientList', JSON.stringify(patientList));
+
+            // 4. 存檔成功後的反應
+            alert('病患資料已成功儲存！');
+
+            // 5. 將欄位重新鎖定 (Disabled) 並隱藏儲存按鈕
+            allInputs.forEach(input => input.disabled = true);
+            saveBtn.style.display = 'none';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            document.getElementById('editPatientBtn').style.display = 'inline-block';
+        });
+    }
+});
+
 function checkLoginStatus() {
     const userInfo = localStorage.getItem('userInfo');
     if (!userInfo) {
