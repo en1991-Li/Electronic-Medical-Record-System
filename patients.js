@@ -6,90 +6,35 @@ let currentUser = null;
 let originalPatientData = null; 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. 取得按鈕元素
+    checkLoginStatus(); // 檢查登入
+    
+    // --- 綁定按鈕 ---
     const newPatientBtn = document.getElementById('newPatientBtn');
-    const allInputs = document.querySelectorAll('.detail-input, .detail-select');
     const saveBtn = document.getElementById('savePatientBtn');
     const cancelBtn = document.getElementById('cancelEditBtn');
+    const editBtn = document.getElementById('editPatientBtn');
 
-    // 2. 點擊「新增病患」時的反應
+    // 點擊新增病患
     if (newPatientBtn) {
         newPatientBtn.addEventListener('click', function() {
-            // 清空所有欄位
+            const allInputs = document.querySelectorAll('.detail-input, .detail-select');
             allInputs.forEach(input => {
                 input.value = '';
-                input.disabled = false; // 解鎖輸入框，讓你可以打字
+                input.disabled = false;
             });
-
-            // 顯示「儲存」和「取消」按鈕，隱藏「新增」按鈕
             saveBtn.style.display = 'inline-block';
             cancelBtn.style.display = 'inline-block';
-            newPatientBtn.style.disabled = true; 
-            
-            alert('請開始輸入新病患資料');
-            document.getElementById('patientName').focus(); // 自動跳轉到姓名欄位
+            alert('請輸入病患資料');
         });
     }
 
-    // 3. 點擊「取消編輯」
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', function() {
-            allInputs.forEach(input => {
-                input.disabled = true; // 重新鎖定
-            });
-            saveBtn.style.display = 'none';
-            cancelBtn.style.display = 'none';
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const saveBtn = document.getElementById('savePatientBtn');
-    const allInputs = document.querySelectorAll('.detail-input, .detail-select');
-
+    // 點擊儲存變更 (修改成以下邏輯)
     if (saveBtn) {
-        saveBtn.addEventListener('click', function() {
-            // 1. 抓取目前輸入框的所有資料
-            const newPatientData = {
-                name: document.getElementById('patientName').value,
-                gender: document.getElementById('patientGender').value,
-                birth: document.getElementById('patientBirth').value,
-                idNumber: document.getElementById('patientIdentityNumber').value,
-                phone: document.getElementById('patientPhone').value,
-                bloodType: document.getElementById('patientBloodType').value,
-                address: document.getElementById('patientAddress').value,
-                emergencyPhone: document.getElementById('EmergencyPhone').value,
-                badHabits: document.getElementById('patientBadHabits').value,
-                familyHistory: document.getElementById('patientFamilyHistory').value,
-                medicalHistory: document.getElementById('patientMedicalHistory').value,
-                allergy: document.getElementById('patientAllergy').value
-            };
-
-            // 2. 簡單驗證：姓名跟身分證不能是空的
-            if (!newPatientData.name || !newPatientData.idNumber) {
-                alert('姓名與身分證字號為必填項目！');
-                return;
-            }
-
-            // 3. 儲存到 localStorage (模擬資料庫存檔)
-            // 先抓出舊資料，再把新資料塞進去
-            let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
-            patientList.push(newPatientData);
-            localStorage.setItem('patientList', JSON.stringify(patientList));
-
-            // 4. 存檔成功後的反應
-            alert('病患資料已成功儲存！');
-
-            // 5. 將欄位重新鎖定 (Disabled) 並隱藏儲存按鈕
-            allInputs.forEach(input => input.disabled = true);
-            saveBtn.style.display = 'none';
-            document.getElementById('cancelEditBtn').style.display = 'none';
-            document.getElementById('editPatientBtn').style.display = 'inline-block';
-        });
+        saveBtn.addEventListener('click', savePatientLocal); 
     }
 });
 
-function checkLoginStatus() {
+    function checkLoginStatus() {
     const userInfo = localStorage.getItem('userInfo');
     if (!userInfo) {
         alert('請先登入！');
@@ -166,54 +111,50 @@ function cancelEditing() {
     }
 }
 
-// 在 savePatient 函數中加入驗證邏輯
-async function savePatient() {
-    // 簡單驗證範例
+function savePatientLocal() {
     const name = document.getElementById('patientName').value.trim();
-    const phone = document.getElementById('patientPhone').value.trim();
+    const idNumber = document.getElementById('patientIdentityNumber').value.trim();
 
-    if (!name || !phone) {
-        alert('姓名與電話為必填項目');
+    if (!name || !idNumber) {
+        alert('姓名與身分證字號為必填項目');
         return;
     }
 
-    const updatedData = {
-        name: name,
-        gender: document.getElementById('patientGender').value,
-        birth: document.getElementById('patientBirth').value,
-        phone: phone,
-        address: document.getElementById('patientAddress').value,
-        emergency_phone: document.getElementById('EmergencyPhone').value,
-        bad_habits: document.getElementById('patientBadHabits').value,
-        family_history: document.getElementById('patientFamilyHistory').value,
-        allergy: document.getElementById('patientAllergy').value
+    // 抓取資料
+    const patientData = {
+        NAME: name,
+        GENDER: document.getElementById('patientGender').value,
+        BIRTHDATE: document.getElementById('patientBirth').value,
+        ID_NUMBER: idNumber,
+        PHONE: document.getElementById('patientPhone').value,
+        BLOOD_TYPE: document.getElementById('patientBloodType').value,
+        ADDRESS: document.getElementById('patientAddress').value,
+        EMERGENCY_PHONE: document.getElementById('EmergencyPhone').value,
+        BAD_HABITS: document.getElementById('patientBadHabits').value,
+        FAMILY_HISTORY: document.getElementById('patientFamilyHistory').value,
+        ALLERGY_HISTORY: document.getElementById('patientAllergy').value
     };
 
-    // 顯示儲存中狀態 (進階優化)
-    const saveBtn = document.getElementById('savePatientBtn');
-    const originalBtnText = saveBtn.innerText;
-    saveBtn.innerText = '儲存中...';
-    saveBtn.disabled = true;
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/patients/${currentPatientId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedData)
-        });
-
-        if (!response.ok) throw new Error('更新失敗');
-
-        alert('資料更新成功');
-        // 更新備份資料，避免下次取消時還原成舊版
-        originalPatientData = { ...originalPatientData, ...updatedData }; 
-        toggleEditMode(false);
-    } catch (err) {
-        alert(err.message);
-    } finally {
-        saveBtn.innerText = originalBtnText;
-        saveBtn.disabled = false;
+    // 存入 localStorage
+    let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
+    
+    // 如果 ID 已存在則更新，否則新增
+    const index = patientList.findIndex(p => p.ID_NUMBER === idNumber);
+    if (index !== -1) {
+        patientList[index] = patientData;
+    } else {
+        patientList.push(patientData);
     }
+
+    localStorage.setItem('patientList', JSON.stringify(patientList));
+
+    alert('資料已成功儲存至本地瀏覽器！');
+    
+    // 鎖回欄位
+    const inputs = document.querySelectorAll('.detail-input, .detail-select');
+    inputs.forEach(input => input.disabled = true);
+    document.getElementById('savePatientBtn').style.display = 'none';
+    document.getElementById('cancelEditBtn').style.display = 'none';
 }
 
 async function deletePatient() {
