@@ -56,32 +56,40 @@ function bindEvents() {
     document.getElementById('deletePatientBtn').addEventListener('click', deletePatient);
 }
 
-// 搜尋功能
-async function searchPatient() {
-    const query = document.getElementById('searchInput').value.trim();
+// 從本地 localStorage 查找
+function searchPatient() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
     if (!query) return alert('請輸入搜尋內容');
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/patients/${encodeURIComponent(query)}`);
-        if (!response.ok) throw new Error('找不到病患資料');
+    // 1. 從 localStorage 抓取存過的病患清單
+    const patientList = JSON.parse(localStorage.getItem('patientList')) || [];
 
-        const patient = await response.json();
-        fillPatientForm(patient);
+    // 2. 進行搜尋 (比對姓名、身分證字號)
+    const foundPatient = patientList.find(p => 
+        (p.NAME && p.NAME.toLowerCase().includes(query)) || 
+        (p.ID_NUMBER && p.ID_NUMBER.toLowerCase() === query)
+    );
 
-        // 根據權限顯示按鈕
-        document.getElementById('editPatientBtn').style.display = (['doctor', 'therapist'].includes(currentUser.role)) ? 'inline-block' : 'none';
-        document.getElementById('deletePatientBtn').style.display = (currentUser.role === 'doctor') ? 'inline-block' : 'none';
-    } catch (err) {
-        alert(err.message);
+    if (foundPatient) {
+        // 3. 找到資料，填入表單
+        fillPatientFormLocal(foundPatient);
+
+        // 4. 根據角色顯示按鈕 (從 currentUser 判斷)
+        if (currentUser) {
+            document.getElementById('editPatientBtn').style.display = (['doctor', 'therapist'].includes(currentUser.role)) ? 'inline-block' : 'none';
+            document.getElementById('deletePatientBtn').style.display = (currentUser.role === 'doctor') ? 'inline-block' : 'none';
+        }
+    } else {
+        alert('找不到該病患資料，請確認輸入是否正確或先新增病患。');
     }
 }
 
-// 填入表單 (對應最新 HTML ID)
-function fillPatientForm(p) {
-    currentPatientId = p.ID_NUMBER; // 以身份證字號作為唯一辨識
+// 配合本地資料格式的填表函數
+function fillPatientFormLocal(p) {
+    currentPatientId = p.ID_NUMBER;
     document.getElementById('patientName').value = p.NAME || '';
     document.getElementById('patientGender').value = p.GENDER || '';
-    document.getElementById('patientBirth').value = p.BIRTHDATE ? p.BIRTHDATE.split('T')[0] : '';
+    document.getElementById('patientBirth').value = p.BIRTHDATE || '';
     document.getElementById('patientIdentityNumber').value = p.ID_NUMBER || '';
     document.getElementById('patientPhone').value = p.PHONE || '';
     document.getElementById('patientBloodType').value = p.BLOOD_TYPE || '';
@@ -91,9 +99,10 @@ function fillPatientForm(p) {
     document.getElementById('patientFamilyHistory').value = p.FAMILY_HISTORY || '';
     document.getElementById('patientAllergy').value = p.ALLERGY_HISTORY || '';
 
-    // 備份原始資料
-    originalPatientData = p;
+    // 備份原始資料供取消編輯使用
+    originalPatientData = { ...p };
 }
+
 
 function toggleEditMode(isEditing) {
     const inputs = document.querySelectorAll('.detail-input, .detail-select');
