@@ -30,14 +30,24 @@ async function fetchPatientData(id) {
 
         // 2. 手術紀錄 (value)
         document.getElementById('surgeryName').value = data.SurgeryName || "無手術紀錄";
-        document.getElementById('surgeryPart').value = data.SurgeryPart || "";
-        document.getElementById('surgerySuggestion').value = data.SurgerySuggestion || "";
+        document.getElementById('surgeryPart').value = data.SurgerySite || ""; 
+        document.getElementById('surgeryComplications').value = data.Complications || ""; 
 
         // 3. 住院紀錄 (value)
         document.getElementById('hospitalWard').value = data.HospitalWard || "未住院";
-        document.getElementById('hospitalBedNumber').value = data.HospitalBedNumber || "";
-        document.getElementById('admissionDate').value = data.AdmissionDate ? new Date(data.AdmissionDate).toLocaleDateString() : "";
+        document.getElementById('hospitalBedName').value = data.hospitalBedName || "";
+        document.getElementById('hospitalBedNumber').value = data.hospitalBedNumber || "";
+        document.getElementById('hospitalStayDays').value = data.hospitalStayDays || "0";
+        document.getElementById('admissionReason').value = data.admissionReason || "";
+        document.getElementById('dischargeReason').value = data.dischargeReason || "";
 
+        // 日期處理
+ if (data.AdmissionDate) {
+    document.getElementById('admissionDate').value = new Date(data.AdmissionDate).toISOString().split('T')[0];
+}
+ if (data.DischargeDate) {
+    document.getElementById('dischargeDate').value = new Date(data.DischargeDate).toISOString().split('T')[0];
+}
         // 4. 過敏紀錄 (value)
         document.getElementById('allergen').value = data.Allergen || "無過敏紀錄";
         document.getElementById('allergySymptom').value = data.AllergySymptom || "";
