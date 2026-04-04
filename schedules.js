@@ -1,3 +1,4 @@
+alert("JS 檔案已成功載入！");
 // 設定 API 網址 (本地開發用 localhost，部署後改為 Render 網址)
 const API_BASE_URL = 'https://your-backend-on-render.com/api'; 
 const IS_LOCAL_DEMO = true; // 如果在 GitHub Pages 測試，請設為 true
