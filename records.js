@@ -39,8 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.assign('./index.html');
             }
         });
-    }
-}); // DOMContentLoaded 結束
 
 // --- 5. 資料抓取函數 (維持在外面沒關係) ---
 async function fetchPatientData(id) {
