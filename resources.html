@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Resource Usage - 醫療資源管理</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="resources.css">
+</head>
+<body>
+    <nav class="navbar">
+        <button onclick="window.location.href='index.html'">Login</button>
+        <button onclick="window.location.href='patients.html'">Patients</button>
+        <button onclick="window.location.href='records.html'">Records</button>
+        <button onclick="window.location.href='schedules.html'">Schedules</button>
+        <button class="active">MedicalResourceUsage</button>
+    </nav>
+
+    <div class="resources-container">
+        
+        <section class="usage-header-section">
+            <div class="usage-card search-area">
+                <div class="title-group">
+                    <h4>病患所用醫療器材資源</h4>
+                    <div class="search-input-group">
+                        <input type="text" id="usageSearchInput" placeholder="查詢 Usage ID...">
+                        <button id="searchUsageBtn" class="btn-orange">查詢</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="usage-form-section">
+            <div class="usage-card form-container">
+                <div class="input-grid-upper">
+                    <div class="form-group">
+                        <label>病患 ID：</label>
+                        <input type="text" id="patientId" class="res-input">
+                    </div>
+                    <div class="form-group">
+                        <label>科別 ID：</label>
+                        <input type="text" id="deptId" class="res-input">
+                    </div>
+                    <div class="form-group">
+                        <label>資源名稱：</label>
+                        <input type="text" id="resourceName" class="res-input">
+                    </div>
+                    <div class="form-group">
+                        <label>資源類型：</label>
+                        <input type="text" id="resourceType" class="res-input">
+                    </div>
+                </div>
+
+                <div class="input-grid-lower">
+                    <div class="form-group">
+                        <label>使用日期：</label>
+                        <input type="date" id="useDate" class="res-input">
+                    </div>
+                    <div class="form-group">
+                        <label>使用時間：</label>
+                        <input type="time" id="useTime" class="res-input">
+                    </div>
+                    <div class="form-group">
+                        <label>備註：</label>
+                        <input type="text" id="useNotes" class="res-input">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="bottom-actions">
+            <button id="addUsageBtn" class="btn-green">新增</button>
+            <button id="deleteUsageBtn" class="btn-red">刪除</button>
+        </div>
+
+    </div>
+
+    <script src="resources.js"></script>
+</body>
+</html>
