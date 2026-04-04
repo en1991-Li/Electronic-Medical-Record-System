@@ -5,34 +5,39 @@ body {
   background-color: #e6f4f7;
 }
 
-/* 導覽列樣式：包括背景色、置中對齊 */
 .navbar {
-  background-color: #a3d5e4;
-  padding: 15px 10px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+    display: flex;
+    justify-content: center; /* 讓按鈕置中 */
+    gap: 10px;               /* 按鈕之間的間距 */
+    padding: 15px;
+    background-color: #B2E0E6; /* 維持你原本的粉藍色調 */
 }
 
-/* 設定導覽列按鈕的通用樣式 */
 .navbar button {
-   background: white; /* 按鈕為白色背景 */
-  border: none;
-  border-radius: 8px; /* 圓角效果 */
-  padding: 10px 25px; /* 按鈕內邊距 */
-  color: #333; /* 文字顏色 */
-  font-size: 14px;
-  font-weight: bold; /* 讓文字變粗體 */
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 100px;        /* 確保按鈕有基本寬度 */
+    transition: background 0.3s;
 }
 
-/* 為當前頁面的按鈕設定不同樣式 */
 .navbar button.active {
-  color: rgb(0, 0, 0);
+    background-color: #f0f0f0; /* 被選中時的顏色 */
 }
 
+/* 針對行動裝置的簡單調整 */
+@media (max-width: 600px) {
+    .navbar {
+        flex-wrap: wrap;     /* 寬度不夠時自動換行 */
+    }
+    .navbar button {
+        flex: 1 1 40%;       /* 手機版一排顯示兩個 */
+    }
+}
+  
 /* 主容器 */
 .container {
   display: flex;
