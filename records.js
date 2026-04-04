@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchBtn = document.getElementById('searchPatientBtn');
     const searchInput = document.getElementById('patientSearchInput');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     // 監聽按鈕點擊
     searchBtn.addEventListener('click', () => {
@@ -16,6 +17,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (patientId) fetchPatientData(patientId);
         }
     });
+});
+
+if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            // 1. 彈出確認視窗
+            if (confirm('確定要登出系統嗎？')) {
+                // 2. 清除登入狀態 (Session 或 LocalStorage)
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userToken'); // 如果你有存 Token
+                localStorage.removeItem('employeeId'); // 清除員工 ID
+
+                // 3. 跳轉回登入頁面
+                alert('您已成功登出');
+                window.location.href = 'index.html';
+            }
+        });
+    }
 });
 
 async function fetchPatientData(id) {
