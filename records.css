@@ -1,26 +1,254 @@
-/* records.css - 更新按鈕與樣式版本 */
+/* =========================================
+   1. 基礎設定與導覽列 (Navbar)
+   ========================================= */
+body { 
+    font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif; 
+    margin: 0; 
+    background-color: #F4F6F8; 
+    color: #333;
+}
 
-body { font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif; margin: 0; background-color: #F4F6F8; }
-.navbar { background-color: #a3d5e4; padding: 15px 10px; display: flex; justify-content: center; gap: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.navbar button { background: white; border: none; border-radius: 8px; padding: 10px 25px; color: #333; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s ease-in-out; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.navbar button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-.navbar button.active { background-color: #e9ecef; color: #007bff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-.records-container { display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 30px; }
-.patient-header-section { display: flex; justify-content: center; width: 100%; }
-.patient-unified-card { background: white; border-radius: 8px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border: 1px solid #EAECEE; width: 100%; max-width: 700px; }
+.navbar { 
+    background-color: #a3d5e4; 
+    padding: 15px 10px; 
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar button { 
+    background: white; 
+    border: none; 
+    border-radius: 8px; 
+    padding: 10px 25px; 
+    color: #333; 
+    font-size: 14px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: all 0.2s ease-in-out; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+}
+
+.navbar button:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
+    background-color: #f8f9fa;
+}
+
+.navbar button.active { 
+    background-color: #e9ecef; 
+    color: #007bff; 
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); 
+}
+
+/* 登出按鈕專屬樣式 */
+.btn-logout {
+    background-color: #ff6b6b !important;
+    color: white !important;
+}
+
+.btn-logout:hover {
+    background-color: #ee5253 !important;
+}
+
+/* =========================================
+   2. 主容器與病患資訊卡片
+   ========================================= */
+.records-container { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 30px; 
+    padding: 30px; 
+}
+
+.patient-header-section { 
+    display: flex; 
+    justify-content: center; 
+    width: 100%; 
+}
+
+.patient-unified-card { 
+    background: white; 
+    border-radius: 8px; 
+    padding: 24px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07); 
+    border: 1px solid #EAECEE; 
+    width: 100%; 
+    max-width: 700px; 
+}
+
 .search-area h4 { margin-top: 0; margin-bottom: 16px; color: #34495E; }
+
 .search-input-group { display: flex; }
-.search-input-group input { flex-grow: 1; border: 1px solid #D5D8DC; border-radius: 6px 0 0 6px; padding: 10px; font-size: 14px; }
-.search-input-group button { padding: 10px 16px; border: none; background-color: #007bff; color: white; border-radius: 0 6px 6px 0; cursor: pointer; }
+.search-input-group input { 
+    flex-grow: 1; 
+    border: 1px solid #D5D8DC; 
+    border-radius: 6px 0 0 6px; 
+    padding: 12px; 
+    font-size: 14px; 
+}
+
+.search-input-group button { 
+    padding: 10px 20px; 
+    border: none; 
+    background-color: #007bff; 
+    color: white; 
+    border-radius: 0 6px 6px 0; 
+    cursor: pointer; 
+    font-weight: bold;
+}
+
 .card-divider { border: none; border-top: 1px solid #EAECEE; margin: 24px 0; }
+
 .info-area { text-align: center; }
-.avatar-placeholder { width: 80px; height: 80px; border-radius: 50%; background-color: #EAECEE; margin: 0 auto 15px; }
-#patientNameDisplay { margin: 10px 0 5px; color: #2C3E50; font-size: 1.1em; font-weight: bold; }
+.avatar-placeholder { 
+    width: 80px; 
+    height: 80px; 
+    border-radius: 50%; 
+    background-color: #EAECEE; 
+    margin: 0 auto 15px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+#patientNameDisplay { margin: 10px 0 5px; color: #2C3E50; font-size: 1.2em; font-weight: bold; }
 #patientIdDisplay { margin: 0; color: #808B96; font-size: 14px; }
-.records-section { width: 100%; max-width: 1800px; }
-.records-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; width: 100%; }
-.record-card { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border: 1px solid #EAECEE; display: flex; flex-direction: column; min-width: 0; }
-.card-header { background: #a3d5e4; padding: 12px 16px; border-bottom: 1px solid #90C4D5; border-radius: 8px 8px 0 0; }
-.card-header h4 { margin: 0; color: #333; font-size: 0.95em; font-weight: bold; white-space: nowrap; }
-.card-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.card-body.grid-2-col { display: grid; grid-template-columns: repeat(2, minmax(
+
+/* =========================================
+   3. 醫療紀錄網格 (Grid) 與卡片樣式
+   ========================================= */
+.records-section { width: 100%; max-width: 1400px; }
+
+.records-grid { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px; 
+    width: 100%; 
+}
+
+.record-card { 
+    background: white; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07); 
+    border: 1px solid #EAECEE; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden;
+}
+
+.card-header { 
+    background: #a3d5e4; 
+    padding: 12px 16px; 
+    border-bottom: 1px solid #90C4D5; 
+}
+
+.card-header h4 { 
+    margin: 0; 
+    color: #333; 
+    font-size: 1em; 
+    font-weight: bold; 
+}
+
+.card-body { 
+    padding: 16px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+/* 雙欄位佈局設定 */
+.card-body.grid-2-col { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+}
+
+.full-width { 
+    grid-column: span 2; 
+}
+
+/* =========================================
+   4. 表單元素 (Input / Label)
+   ========================================= */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-group label {
+    font-size: 13px;
+    color: #5D6D7E;
+    font-weight: 600;
+}
+
+.input-group input, 
+.input-group textarea, 
+.input-group select {
+    padding: 8px 12px;
+    border: 1px solid #D5D8DC;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fcfcfc;
+    transition: all 0.2s;
+}
+
+/* 唯讀狀態樣式 */
+input:disabled, 
+textarea:disabled, 
+select:disabled {
+    background-color: #F8F9F9;
+    color: #7F8C8D;
+    border: 1px solid #EBEDEF;
+    cursor: not-allowed;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
+}
+
+/* =========================================
+   5. 響應式設計 (Responsive Design)
+   ========================================= */
+
+/* 寬螢幕/平板 (1200px 以下) 改為 2 欄 */
+@media (max-width: 1200px) {
+    .records-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 手機版 (768px 以下) 改為 1 欄 */
+@media (max-width: 768px) {
+    .navbar {
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .navbar button {
+        padding: 8px 12px;
+        font-size: 12px;
+        flex: 1 1 30%; /* 讓按鈕自動填滿並換行 */
+    }
+
+    .records-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .records-container {
+        padding: 15px;
+    }
+
+    .patient-unified-card {
+        padding: 15px;
+    }
+}
