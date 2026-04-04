@@ -26,21 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. 登出功能 (已搬回 DOMContentLoaded 內部)
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            if (confirm('確定要登出系統嗎？')) {
-                // 清除登入狀態
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('userToken');
-                localStorage.removeItem('employeeId');
+    // 4. 登出功能
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+        if (confirm('確定要登出系統嗎？')) {
+            // 必須清除「所有」相關的 Key
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userInfo');    // <--- 這行最重要！
+            localStorage.removeItem('employeeId');
+            localStorage.removeItem('userToken');
 
-                alert('您已成功登出');
-                window.location.assign('./index.html');
-            }
-        });
-
-// --- 5. 資料抓取函數 (維持在外面沒關係) ---
+            alert('您已成功登出');
+            // 使用 replace 替換掉歷史紀錄，防止按「上一頁」又跑回去
+            window.location.replace('./index.html'); 
+        }
+    });
+}
+    
+// --- 5. 資料抓取函數  ---
 async function fetchPatientData(id) {
     try {
         // 注意：如果你還沒寫後端 API，這行 fetch 會失敗並進入 catch
