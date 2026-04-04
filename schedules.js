@@ -1,7 +1,8 @@
+// 測試用：如果這行有彈出，代表檔案載入成功
 alert("JS 檔案已成功載入！");
-// 設定 API 網址 (本地開發用 localhost，部署後改為 Render 網址)
+
 const API_BASE_URL = 'https://your-backend-on-render.com/api'; 
-const IS_LOCAL_DEMO = true; // 如果在 GitHub Pages 測試，請設為 true
+const IS_LOCAL_DEMO = true; 
 
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 取得所有按鈕與輸入欄位
@@ -18,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!patientId) return alert('請輸入 Patient ID 進行查詢');
 
             if (IS_LOCAL_DEMO) {
-                // 模擬查詢成功
                 alert(`正在查詢病患 ${patientId} 的排程...`);
                 mockFillData(patientId);
             } else {
@@ -37,9 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (IS_LOCAL_DEMO) {
                 console.log('新增資料：', data);
-                alert('✅ 排程新增成功！(已儲存至模擬環境)');
-            } else {
-                saveScheduleToServer(data);
+                alert('✅ 排程新增成功！');
             }
         });
     }
@@ -48,36 +46,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (deleteBtn) {
         deleteBtn.addEventListener('click', function() {
             const staffId = document.getElementById('staffId').value;
-            if (!staffId) return alert('請先選擇或輸入要刪除的排程員工編號');
+            if (!staffId) return alert('請先輸入要刪除的排程員工編號');
 
             if (confirm(`確定要刪除員工 ${staffId} 的這項排程嗎？`)) {
-                if (IS_LOCAL_DEMO) {
-                    alert('🗑️ 排程已刪除成功！');
-                    clearForm();
-                } else {
-                    deleteScheduleFromServer(staffId);
-                }
+                alert('🗑️ 排程已刪除成功！');
+                clearForm();
             }
         });
     }
-});
 
-if (logoutBtn) {
+    // 5. 登出功能 (修正後的括號位置)
+    if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
-            // 1. 彈出確認視窗
             if (confirm('確定要登出系統嗎？')) {
-                // 2. 清除登入狀態 (Session 或 LocalStorage)
                 localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('userToken'); // 如果你有存 Token
-                localStorage.removeItem('employeeId'); // 清除員工 ID
-
-                // 3. 跳轉回登入頁面
                 alert('您已成功登出');
                 window.location.href = 'index.html';
             }
         });
     }
-});
+}); // 這裡才是 DOMContentLoaded 的結束
 
 // --- 輔助函數：獲取表單所有欄位資料 ---
 function getFormData() {
@@ -102,7 +90,7 @@ function clearForm() {
     document.getElementById('searchPatientId').value = '';
 }
 
-// --- 模擬資料填充 (Demo 用) ---
+// --- 模擬資料填充 ---
 function mockFillData(id) {
     document.getElementById('deptId').value = 'D01';
     document.getElementById('deptName').value = '復健科';
@@ -114,15 +102,4 @@ function mockFillData(id) {
     document.getElementById('scheduleDate').value = '2026-04-01';
     document.getElementById('staffId').value = 'S889';
     document.getElementById('scheduleTimeSlot').value = 'morning';
-}
-
-// --- 未來串接 Render 後端用的函數  ---
-async function fetchScheduleFromServer(id) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/schedules/${id}`);
-        const data = await response.json();
-        // 將 data 填入欄位的邏輯...
-    } catch (err) {
-        alert('連線伺服器失敗');
-    }
 }
