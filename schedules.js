@@ -92,7 +92,7 @@ function mockFillData(id) {
     document.getElementById('staffGender').value = 'M';
     document.getElementById('staffTitle').value = '物理治療師';
     document.getElementById('staffExperience').value = '5';
-    document.getElementById('scheduleDate').value = '2026-04-10';
+    document.getElementById('scheduleDate').value = '2026-04-01';
     document.getElementById('staffId').value = 'S889';
     document.getElementById('scheduleTimeSlot').value = 'morning';
 }
