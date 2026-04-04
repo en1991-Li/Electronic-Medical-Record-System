@@ -12,13 +12,15 @@
 </head>
 
 <body>
-  <!-- 導覽列(包含多個<button>，有"Login"、"Patients"、"Records") -->
+<!--導覽列-->
   <nav class="navbar">
-    <!-- class="active"：表示目前停留在此頁面，CSS會有特別的樣式 -->
-    <button class="active">Login</button>
-    <button>Patients</button>
-    <button>Records</button>
-  </nav>
+    <button class="active" onclick="window.location.href='index.html'">Login</button>
+    <button onclick="window.location.href='patients.html'">Patients</button>
+    <button onclick="window.location.href='records.html'">Records</button>
+    <button onclick="window.location.href='schedules.html'">Schedules</button>
+    <button onclick="window.location.href='resources.html'">MedicalResourceUsage</button>
+</nav>
+
   <!-- 主區塊(使用Flexbox佈局將內容垂直置中) -->
   <div class="container">
     <!-- 顯示一個使用者頭像的圖示 -->
