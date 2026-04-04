@@ -1,0 +1,152 @@
+/* 容器與通用設定 */
+.resources-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+    font-family: "Microsoft JhengHei", sans-serif;
+}
+
+/* --- 通用卡片樣式 --- */
+.usage-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+/* --- 上方查詢區塊  --- */
+.title-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.title-group h4 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #333;
+    border-left: 5px solid #FFA500;
+    padding-left: 15px;
+}
+
+.search-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input-group input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+/* --- 表單格線佈局 --- */
+.input-grid-upper, 
+.input-grid-lower {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+/* 第一排：4 個欄位 */
+.input-grid-upper {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* 第二排：3 個欄位 */
+.input-grid-lower {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* 表單群組樣式 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.res-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.res-input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* --- 按鈕樣式 --- */
+.btn-orange {
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.bottom-actions {
+    display: flex;
+    justify-content: flex-end; /* 按鈕靠右下角 */
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-green {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-red {
+    background-color: #F44336;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-orange:hover, .btn-green:hover, .btn-red:hover {
+    filter: brightness(0.9);
+}
+
+/* 響應式微調：螢幕小時改為兩欄 */
+@media (max-width: 900px) {
+    .input-grid-upper, .input-grid-lower {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .input-grid-upper, .input-grid-lower {
+        grid-template-columns: 1fr;
+    }
+    .title-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
