@@ -62,18 +62,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
             // 1. 彈出確認視窗
-            if (confirm('確定要登出系統嗎？')) {
-                // 2. 清除登入狀態 (Session 或 LocalStorage)
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('userToken'); // 如果你有存 Token
-                localStorage.removeItem('employeeId'); // 清除員工 ID
+            // 登出邏輯建議統寫法
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+        if (confirm('確定要登出系統嗎？')) {
+            // 必須清除「所有」相關的 Key
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('employeeId');
+            localStorage.removeItem('userToken');
 
-                // 3. 跳轉回登入頁面
-                alert('您已成功登出');
-                window.location.href = 'index.html';
-            }
-        });
-    }
+            alert('您已成功登出');
+            // 使用 replace 替換掉歷史紀錄，防止按「上一頁」又跑回去
+            window.location.replace('./index.html'); 
+        }
+    });
+}
     
      // 重新整理按鈕：綁定 refreshPage 函數
     const refreshBtn = document.getElementById('refreshBtn');
