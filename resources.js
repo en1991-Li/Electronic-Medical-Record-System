@@ -1,4 +1,6 @@
-// 設定區：將來部署到 Render 後，將 IS_LOCAL_DEMO 改為 false 並填入 API 網址
+// 測試載入狀況
+console.log("✅ resources.js 已成功載入");
+
 const API_BASE_URL = 'https://your-backend-on-render.com/api';
 const IS_LOCAL_DEMO = true; 
 
@@ -17,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!usageId) return alert('請輸入 Usage ID 進行查詢');
 
             if (IS_LOCAL_DEMO) {
-                // 模擬從資料庫抓取資料
                 console.log(`查詢 Usage ID: ${usageId}`);
                 mockFetchUsage(usageId);
             } else {
@@ -31,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
         addBtn.addEventListener('click', function() {
             const data = getResourceFormData();
             
-            // 簡單驗證：必填欄位檢查
             if (!data.patientId || !data.resourceName) {
                 return alert('請至少填寫病患 ID 與資源名稱！');
             }
@@ -39,8 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (IS_LOCAL_DEMO) {
                 console.log('新增資源紀錄：', data);
                 alert('✅ 醫療器材使用紀錄新增成功！');
-            } else {
-                // 未來串接後端：saveUsageToServer(data);
             }
         });
     }
@@ -55,30 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (IS_LOCAL_DEMO) {
                     alert('🗑️ 紀錄已成功刪除！');
                     clearResourceForm();
-                } else {
-                    // 未來串接後端：deleteUsageFromServer(usageId);
                 }
             }
         });
     }
-});
 
-if (logoutBtn) {
+    // 5. 登出功能 (已修正位置)
+    if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
-            // 1. 彈出確認視窗
             if (confirm('確定要登出系統嗎？')) {
-                // 2. 清除登入狀態 (Session 或 LocalStorage)
                 localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('userToken'); // 如果你有存 Token
-                localStorage.removeItem('employeeId'); // 清除員工 ID
-
-                // 3. 跳轉回登入頁面
                 alert('您已成功登出');
                 window.location.href = 'index.html';
             }
         });
     }
-});
+}); // DOMContentLoaded 結束
 
 /**
  * 輔助函數：獲取表單所有資料
@@ -108,7 +98,6 @@ function clearResourceForm() {
  * 模擬查詢結果 (Demo 用)
  */
 function mockFetchUsage(id) {
-    // 這裡模擬當 ID 為 "U001" 時帶入的資料
     alert(`成功找到紀錄：${id}`);
     
     document.getElementById('patientId').value = 'P12345';
