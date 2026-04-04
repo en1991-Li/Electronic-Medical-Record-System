@@ -30,9 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
 if (logoutBtn) {
     logoutBtn.addEventListener('click', function() {
         if (confirm('確定要登出系統嗎？')) {
-            // 必須清除「所有」相關的 Key
             localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userInfo');    // <--- 這行最重要！
+            localStorage.removeItem('userInfo');
             localStorage.removeItem('employeeId');
             localStorage.removeItem('userToken');
 
@@ -46,7 +45,6 @@ if (logoutBtn) {
 // --- 5. 資料抓取函數  ---
 async function fetchPatientData(id) {
     try {
-        // 注意：如果你還沒寫後端 API，這行 fetch 會失敗並進入 catch
         // 如果目前是 Demo 階段，可以先用 mock 資料測試
         const response = await fetch(`/api/patients/${id}`);
         
@@ -86,7 +84,6 @@ function updateRecordFields(data) {
     document.getElementById('admissionDate').value = formatDate(data.AdmissionDate);
     document.getElementById('dischargeDate').value = formatDate(data.DischargeDate);
     
-    // ... 其他欄位以此類推 ...
 }
 
 /**
