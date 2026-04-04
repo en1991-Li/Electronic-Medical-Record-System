@@ -15,9 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const editBtn = document.getElementById('editPatientBtn');
     const searchBtn = document.getElementById('searchBtn');
     const logoutBtn = document.getElementById('logoutBtn');
-    
+    const refreshBtn = document.getElementById('refreshBtn');
+    const deleteBtn = document.getElementById('deletePatientBtn');
 
-    // 1. 搜尋功能 (重要！)
+    // 1. 搜尋功能
     if (searchBtn) {
         searchBtn.addEventListener('click', searchPatient);
     }
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             saveBtn.style.display = 'inline-block';
             cancelBtn.style.display = 'inline-block';
-            editBtn.style.display = 'none'; // 新增時不需要編輯按鈕
+            editBtn.style.display = 'none'; 
             alert('請輸入病患資料');
         });
     }
@@ -50,53 +51,46 @@ document.addEventListener('DOMContentLoaded', function() {
     // 5. 點擊「取消編輯」
     if (cancelBtn) {
         cancelBtn.addEventListener('click', function() {
-            if (confirm('確定取消？資料將不會儲存')) {
+            if (confirm('確定取消？資料將還原')) {
                 const inputs = document.querySelectorAll('.detail-input, .detail-select');
                 inputs.forEach(input => input.disabled = true);
                 saveBtn.style.display = 'none';
                 cancelBtn.style.display = 'none';
                 if (originalPatientData) fillPatientFormLocal(originalPatientData);
+                toggleEditMode(false);
             }
         });
     }
+
+    // 6. 登出功能
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
-            // 1. 彈出確認視窗
-            // 登出邏輯建議統寫法
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', function() {
-        if (confirm('確定要登出系統嗎？')) {
-            // 必須清除「所有」相關的 Key
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userInfo');
-            localStorage.removeItem('employeeId');
-            localStorage.removeItem('userToken');
-
-            alert('您已成功登出');
-            // 使用 replace 替換掉歷史紀錄，防止按「上一頁」又跑回去
-            window.location.replace('./index.html'); 
-        }
-    });
-}
+            if (confirm('確定要登出系統嗎？')) {
+                localStorage.clear(); // 清除所有資料最保險
+                alert('您已成功登出');
+                window.location.replace('./index.html'); 
+            }
+        });
+    }
     
-     // 重新整理按鈕：綁定 refreshPage 函數
-    const refreshBtn = document.getElementById('refreshBtn');
+    // 7. 重新整理
     if (refreshBtn) {
         refreshBtn.addEventListener('click', () => location.reload());
     }
 
-    // 刪除按鈕：綁定 deletePatientLocal 函數
-    const deleteBtn = document.getElementById('deletePatientBtn');
+    // 8. 刪除按鈕
     if (deleteBtn) {
         deleteBtn.addEventListener('click', deletePatientLocal);
     }
-});
+}); // DOMContentLoaded 結束
 
-    function checkLoginStatus() {
+// --- 核心函數區 ---
+
+function checkLoginStatus() {
     const userInfo = localStorage.getItem('userInfo');
     if (!userInfo) {
         alert('請先登入！');
-        window.location.href = 'index.html';
+        window.location.replace('./index.html');
         return;
     }
     currentUser = JSON.parse(userInfo);
@@ -106,43 +100,30 @@ if (logoutBtn) {
     }
 }
 
-function bindEvents() {
-    document.getElementById('searchBtn').addEventListener('click', searchPatient);
-    document.getElementById('editPatientBtn').addEventListener('click', () => toggleEditMode(true));
-    document.getElementById('cancelEditBtn').addEventListener('click', cancelEditing);
-    document.getElementById('savePatientBtn').addEventListener('click', savePatient);
-    document.getElementById('deletePatientBtn').addEventListener('click', deletePatient);
-}
-
-// 從本地 localStorage 查找
 function searchPatient() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
     if (!query) return alert('請輸入搜尋內容');
 
-    // 1. 從 localStorage 抓取存過的病患清單
     const patientList = JSON.parse(localStorage.getItem('patientList')) || [];
-
-    // 2. 進行搜尋 (比對姓名、身分證字號)
     const foundPatient = patientList.find(p => 
         (p.NAME && p.NAME.toLowerCase().includes(query)) || 
         (p.ID_NUMBER && p.ID_NUMBER.toLowerCase() === query)
     );
 
     if (foundPatient) {
-        // 3. 找到資料，填入表單
         fillPatientFormLocal(foundPatient);
-
-        // 4. 根據角色顯示按鈕 (從 currentUser 判斷)
+        // 角色權限控管
         if (currentUser) {
-            document.getElementById('editPatientBtn').style.display = (['doctor', 'therapist'].includes(currentUser.role)) ? 'inline-block' : 'none';
-            document.getElementById('deletePatientBtn').style.display = (currentUser.role === 'doctor') ? 'inline-block' : 'none';
+            const editBtn = document.getElementById('editPatientBtn');
+            const deleteBtn = document.getElementById('deletePatientBtn');
+            if (editBtn) editBtn.style.display = (['doctor', 'therapist'].includes(currentUser.role)) ? 'inline-block' : 'none';
+            if (deleteBtn) deleteBtn.style.display = (currentUser.role === 'doctor') ? 'inline-block' : 'none';
         }
     } else {
-        alert('找不到該病患資料，請確認輸入是否正確或先新增病患。');
+        alert('找不到該病患資料');
     }
 }
 
-// 配合本地資料格式的填表函數
 function fillPatientFormLocal(p) {
     currentPatientId = p.ID_NUMBER;
     document.getElementById('patientName').value = p.NAME || '';
@@ -156,11 +137,8 @@ function fillPatientFormLocal(p) {
     document.getElementById('patientBadHabits').value = p.BAD_HABITS || '';
     document.getElementById('patientFamilyHistory').value = p.FAMILY_HISTORY || '';
     document.getElementById('patientAllergy').value = p.ALLERGY_HISTORY || '';
-
-    // 備份原始資料供取消編輯使用
     originalPatientData = { ...p };
 }
-
 
 function toggleEditMode(isEditing) {
     const inputs = document.querySelectorAll('.detail-input, .detail-select');
@@ -169,13 +147,6 @@ function toggleEditMode(isEditing) {
     document.getElementById('editPatientBtn').style.display = isEditing ? 'none' : 'inline-block';
     document.getElementById('savePatientBtn').style.display = isEditing ? 'inline-block' : 'none';
     document.getElementById('cancelEditBtn').style.display = isEditing ? 'inline-block' : 'none';
-}
-
-function cancelEditing() {
-    if (confirm('確定取消編輯？資料將還原')) {
-        fillPatientForm(originalPatientData);
-        toggleEditMode(false);
-    }
 }
 
 function savePatientLocal() {
@@ -187,7 +158,6 @@ function savePatientLocal() {
         return;
     }
 
-    // 抓取資料
     const patientData = {
         NAME: name,
         GENDER: document.getElementById('patientGender').value,
@@ -202,11 +172,9 @@ function savePatientLocal() {
         ALLERGY_HISTORY: document.getElementById('patientAllergy').value
     };
 
-    // 存入 localStorage
     let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
-    
-    // 如果 ID 已存在則更新，否則新增
     const index = patientList.findIndex(p => p.ID_NUMBER === idNumber);
+    
     if (index !== -1) {
         patientList[index] = patientData;
     } else {
@@ -214,36 +182,21 @@ function savePatientLocal() {
     }
 
     localStorage.setItem('patientList', JSON.stringify(patientList));
-
-    alert('資料已成功儲存至本地瀏覽器！');
-    
-    // 鎖回欄位
-    const inputs = document.querySelectorAll('.detail-input, .detail-select');
-    inputs.forEach(input => input.disabled = true);
-    document.getElementById('savePatientBtn').style.display = 'none';
-    document.getElementById('cancelEditBtn').style.display = 'none';
+    alert('資料已成功儲存！');
+    toggleEditMode(false);
 }
 
-async function deletePatientLocal() {
-    // 檢查目前是否有選中的病患
+function deletePatientLocal() {
     if (!currentPatientId) {
-        alert('請先搜尋並選擇一位要刪除的病患');
+        alert('請先搜尋病患');
         return;
     }
 
-    if (confirm(`確定要刪除病患（身分證字號：${currentPatientId}）的所有資料嗎？此動作無法復原。`)) {
-        // 1. 從 localStorage 抓出清單
+    if (confirm(`確定要刪除病患（ID：${currentPatientId}）嗎？`)) {
         let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
-
-        // 2. 過濾掉目前這位病患
         const updatedList = patientList.filter(p => p.ID_NUMBER !== currentPatientId);
-
-        // 3. 存回 localStorage
         localStorage.setItem('patientList', JSON.stringify(updatedList));
-
-        alert('病患資料已成功刪除');
-
-        // 4. 清空畫面並重新整理
+        alert('病患資料已刪除');
         location.reload();
     }
 }
