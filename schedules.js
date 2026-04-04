@@ -55,18 +55,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 5. 登出功能 (修正後的括號位置)
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            if (confirm('確定要登出系統嗎？')) {
-                localStorage.removeItem('isLoggedIn');
-                alert('您已成功登出');
-                window.location.href = 'index.html';
-            }
-        });
-    }
-}); // 這裡才是 DOMContentLoaded 的結束
+    // 5. 登出功能 
+    // 登出邏輯建議統寫法
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+        if (confirm('確定要登出系統嗎？')) {
+            // 必須清除「所有」相關的 Key
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('employeeId');
+            localStorage.removeItem('userToken');
 
+            alert('您已成功登出');
+            // 使用 replace 替換掉歷史紀錄，防止按「上一頁」又跑回去
+            window.location.replace('./index.html'); 
+        }
+    });
+}
+    
 // --- 輔助函數：獲取表單所有欄位資料 ---
 function getFormData() {
     return {
