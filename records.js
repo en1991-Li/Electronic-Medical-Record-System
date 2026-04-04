@@ -3,7 +3,7 @@ console.log("✅ records.js 已成功載入");
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. 取得 DOM 元素
-    const searchBtn = document.getElementById('searchScheduleBtn'); // 檢查 HTML 裡 ID 是否為這個
+    const searchBtn = document.getElementById('searchPatientBtn'); 
     const searchInput = document.getElementById('patientSearchInput');
     const logoutBtn = document.getElementById('logoutBtn');
 
@@ -27,25 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 4. 登出功能
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', function() {
-        if (confirm('確定要登出系統嗎？')) {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userInfo');
-            localStorage.removeItem('employeeId');
-            localStorage.removeItem('userToken');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            if (confirm('確定要登出系統嗎？')) {
+                localStorage.clear(); // 清除所有登入資訊
+                alert('您已成功登出');
+                window.location.replace('./index.html'); 
+            }
+        });
+    }
+}); // DOMContentLoaded 結束
 
-            alert('您已成功登出');
-            // 使用 replace 替換掉歷史紀錄，防止按「上一頁」又跑回去
-            window.location.replace('./index.html'); 
-        }
-    });
-}
-    
-// --- 5. 資料抓取函數  ---
+// --- 5. 資料抓取函數 (移出監聽器外，結構更清晰) ---
 async function fetchPatientData(id) {
     try {
-        // 如果目前是 Demo 階段，可以先用 mock 資料測試
+        console.log(`正在查詢 ID: ${id} ...`);
+        
+        
+        // 開發測試階段可先改用本地模擬資料。
         const response = await fetch(`/api/patients/${id}`);
         
         if (!response.ok) {
@@ -63,6 +62,7 @@ async function fetchPatientData(id) {
         console.error("發生錯誤:", error);
         alert("查詢失敗：" + error.message);
         document.getElementById('patientNameDisplay').innerText = "查詢失敗";
+        document.getElementById('patientIdDisplay').innerText = "Patient ID: ---";
     }
 }
 
@@ -70,20 +70,37 @@ async function fetchPatientData(id) {
  * 輔助函式：更新頁面欄位內容
  */
 function updateRecordFields(data) {
-    // 標頭
+    // 標頭資訊
     document.getElementById('patientNameDisplay').innerText = data.PatientName || "未知病患";
     document.getElementById('patientIdDisplay').innerText = `Patient ID: ${data.PatientID || '---'}`;
 
-    // 手術紀錄
+    // A. 手術紀錄
     document.getElementById('surgeryName').value = data.SurgeryName || "無手術紀錄";
     document.getElementById('surgeryPart').value = data.SurgerySite || "";
     document.getElementById('surgerySuggestion').value = data.SurgerySuggestion || "";
     document.getElementById('surgeryComplications').value = data.Complications || "";
 
-    // 住院日期
+    // B. 住院記錄
+    document.getElementById('hospitalWard').value = data.WardName || "";
+    document.getElementById('hospitalBedName').value = data.BedName || "";
+    document.getElementById('hospitalBedNumber').value = data.BedNumber || "";
+    document.getElementById('hospitalStayDays').value = data.StayDays || "";
     document.getElementById('admissionDate').value = formatDate(data.AdmissionDate);
     document.getElementById('dischargeDate').value = formatDate(data.DischargeDate);
-    
+    document.getElementById('admissionReason').value = data.AdmissionReason || "";
+    document.getElementById('dischargeReason').value = data.DischargeReason || "";
+
+    // C. 過敏記錄
+    document.getElementById('allergen').value = data.Allergen || "無過敏紀錄";
+    document.getElementById('allergySymptom').value = data.AllergySymptom || "";
+    document.getElementById('allergySeverity').value = data.AllergySeverity || "";
+    document.getElementById('allergyNotes').value = data.AllergyNotes || "";
+
+    // D. 檢驗檢查紀錄
+    document.getElementById('labTestName').value = data.LabTestName || "無檢驗紀錄";
+    document.getElementById('labTestDate').value = formatDate(data.LabTestDate);
+    document.getElementById('labTestResult').value = data.LabTestResult || "";
+    document.getElementById('labTestSuggestion').value = data.LabSuggestion || "";
 }
 
 /**
