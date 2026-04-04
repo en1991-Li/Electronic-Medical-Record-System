@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveBtn = document.getElementById('savePatientBtn');
     const cancelBtn = document.getElementById('cancelEditBtn');
     const editBtn = document.getElementById('editPatientBtn');
-    const searchBtn = document.getElementById('searchBtn'); // 補上搜尋按鈕
+    const searchBtn = document.getElementById('searchBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
 
     // 1. 搜尋功能 (重要！)
     if (searchBtn) {
@@ -57,7 +59,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            // 1. 彈出確認視窗
+            if (confirm('確定要登出系統嗎？')) {
+                // 2. 清除登入狀態 (Session 或 LocalStorage)
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userToken'); // 如果你有存 Token
+                localStorage.removeItem('employeeId'); // 清除員工 ID
 
+                // 3. 跳轉回登入頁面
+                alert('您已成功登出');
+                window.location.href = 'index.html';
+            }
+        });
+    }
+    
      // 重新整理按鈕：綁定 refreshPage 函數
     const refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) {
