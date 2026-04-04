@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addBtn = document.getElementById('addScheduleBtn');
     const deleteBtn = document.getElementById('deleteScheduleBtn');
     const searchInput = document.getElementById('searchPatientId');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     // 2. 查詢功能
     if (searchBtn) {
@@ -55,6 +56,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     deleteScheduleFromServer(staffId);
                 }
+            }
+        });
+    }
+});
+
+if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            // 1. 彈出確認視窗
+            if (confirm('確定要登出系統嗎？')) {
+                // 2. 清除登入狀態 (Session 或 LocalStorage)
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userToken'); // 如果你有存 Token
+                localStorage.removeItem('employeeId'); // 清除員工 ID
+
+                // 3. 跳轉回登入頁面
+                alert('您已成功登出');
+                window.location.href = 'index.html';
             }
         });
     }
