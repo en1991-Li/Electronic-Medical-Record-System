@@ -3,7 +3,7 @@
  * 功能：搜尋、編輯、重新整理、新增與刪除病患（模擬功能）
  */
 
-// 1. 模擬資料庫
+// 1. 模擬資料庫 (已加入李小華資料)
 const mockPatientData = {
     "A123456789": {
         name: "王小豪",
@@ -18,6 +18,20 @@ const mockPatientData = {
         familyHistory: "父親有高血壓病史",
         medicalHistory: "yes",
         allergy: "盤尼西林"
+    },
+    "B123456789": {
+        name: "李小華",
+        gender: "F",
+        birth: "1992-11-05",
+        idNumber: "B123456789",
+        phone: "0933-888-999",
+        bloodType: "A",
+        address: "台中市西屯區台灣大道三段 99 號",
+        emergencyPhone: "04-2345-6789",
+        badHabits: "無",
+        familyHistory: "無特殊遺傳病史",
+        medicalHistory: "none",
+        allergy: "海鮮過敏、塵蟎"
     }
 };
 
@@ -45,8 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data) {
                 currentLoadedData = data;
                 fillPatientForm(data);
+                console.log(`已找到病患：${data.name}`);
             } else {
-                alert("查無此身分證字號，請輸入範例：A123456789");
+                alert("查無此身分證字號。\n測試範例：\n1. 王小豪 (A123456789)\n2. 李小華 (B223344556)");
             }
         });
     }
