@@ -58,17 +58,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 5. 登出功能 (已修正位置)
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            if (confirm('確定要登出系統嗎？')) {
-                localStorage.removeItem('isLoggedIn');
-                alert('您已成功登出');
-                window.location.href = 'index.html';
-            }
-        });
-    }
-}); // DOMContentLoaded 結束
+    // 5. 登出功能
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+        if (confirm('確定要登出系統嗎？')) {
+            localStorage.clear(); // 清除所有登入快取
+            alert('您已成功登出');
+            
+            // 使用 replace 可以防止使用者登出後點擊「回上一頁」重新進入系統
+            window.location.replace('./index.html'); 
+        }
+    });
+   }
+});
 
 /**
  * 輔助函數：獲取表單所有資料
