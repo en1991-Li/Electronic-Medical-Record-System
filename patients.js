@@ -1,202 +1,89 @@
-// patients.js - 病患頁面功能
-const API_BASE_URL = '/api';
+/**
+ * patients.js
+ * 負責處理病患列表的顯示、搜尋與跳轉功能
+ */
 
-let currentPatientId = null;
-let currentUser = null;
-let originalPatientData = null; 
+// 1. 模擬病患資料庫 (Mock Data)
+const mockPatients = [
+    { id: "A001", name: "王小明", gender: "男", age: 45, department: "心臟內科", status: "住院中" },
+    { id: "A002", name: "李小美", gender: "女", age: 62, department: "一般外科", status: "已出院" },
+    { id: "A003", name: "張大衛", gender: "男", age: 28, department: "骨科", status: "住院中" },
+    { id: "A004", name: "趙小鳳", gender: "女", age: 35, department: "婦產科", status: "住院中" },
+    { id: "A005", name: "陳大文", gender: "男", age: 50, department: "心臟內科", status: "已出院" }
+];
 
-document.addEventListener('DOMContentLoaded', function() {
-    checkLoginStatus(); // 檢查登入
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("✅ patients.js 已成功載入");
 
-    // --- 綁定按鈕變數 ---
-    const newPatientBtn = document.getElementById('newPatientBtn');
-    const saveBtn = document.getElementById('savePatientBtn');
-    const cancelBtn = document.getElementById('cancelEditBtn');
-    const editBtn = document.getElementById('editPatientBtn');
-    const searchBtn = document.getElementById('searchBtn');
+    const patientTableBody = document.getElementById('patientTableBody');
+    const searchInput = document.getElementById('patientSearchInput');
     const logoutBtn = document.getElementById('logoutBtn');
-    const refreshBtn = document.getElementById('refreshBtn');
-    const deleteBtn = document.getElementById('deletePatientBtn');
 
-    // 1. 搜尋功能
-    if (searchBtn) {
-        searchBtn.addEventListener('click', searchPatient);
-    }
+    // --- 2. 初始化：渲染所有病患 ---
+    renderPatients(mockPatients);
 
-    // 2. 點擊「新增病患」
-    if (newPatientBtn) {
-        newPatientBtn.addEventListener('click', function() {
-            const allInputs = document.querySelectorAll('.detail-input, .detail-select');
-            allInputs.forEach(input => {
-                input.value = '';
-                input.disabled = false;
-            });
-            saveBtn.style.display = 'inline-block';
-            cancelBtn.style.display = 'inline-block';
-            editBtn.style.display = 'none'; 
-            alert('請輸入病患資料');
+    // --- 3. 搜尋過濾功能 ---
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            const filteredData = mockPatients.filter(p => 
+                p.name.toLowerCase().includes(keyword) || 
+                p.id.toLowerCase().includes(keyword) ||
+                p.department.includes(keyword)
+            );
+            renderPatients(filteredData);
         });
     }
 
-    // 3. 點擊「編輯資料」
-    if (editBtn) {
-        editBtn.addEventListener('click', () => toggleEditMode(true));
-    }
-
-    // 4. 點擊「儲存變更」
-    if (saveBtn) {
-        saveBtn.addEventListener('click', savePatientLocal); 
-    }
-
-    // 5. 點擊「取消編輯」
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', function() {
-            if (confirm('確定取消？資料將還原')) {
-                const inputs = document.querySelectorAll('.detail-input, .detail-select');
-                inputs.forEach(input => input.disabled = true);
-                saveBtn.style.display = 'none';
-                cancelBtn.style.display = 'none';
-                if (originalPatientData) fillPatientFormLocal(originalPatientData);
-                toggleEditMode(false);
-            }
-        });
-    }
-
-    // 6. 登出功能
+    // --- 4. 登出功能 ---
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
+        logoutBtn.addEventListener('click', () => {
             if (confirm('確定要登出系統嗎？')) {
-                localStorage.clear(); // 清除所有資料最保險
-                alert('您已成功登出');
-                window.location.replace('./index.html'); 
+                localStorage.clear();
+                window.location.replace('./index.html');
             }
         });
     }
-    
-    // 7. 重新整理
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', () => location.reload());
-    }
+});
 
-    // 8. 刪除按鈕
-    if (deleteBtn) {
-        deleteBtn.addEventListener('click', deletePatientLocal);
-    }
-}); // DOMContentLoaded 結束
+/**
+ * 5. 渲染表格函數
+ * @param {Array} data - 要顯示的病患陣列
+ */
+function renderPatients(data) {
+    const tableBody = document.getElementById('patientTableBody');
+    if (!tableBody) return;
 
-// --- 核心函數區 ---
+    tableBody.innerHTML = ""; // 先清空表格
 
-function checkLoginStatus() {
-    const userInfo = localStorage.getItem('userInfo');
-    if (!userInfo) {
-        alert('請先登入！');
-        window.location.replace('./index.html');
-        return;
-    }
-    currentUser = JSON.parse(userInfo);
-    const reminder = document.querySelector('.reminder-text');
-    if (reminder) {
-        reminder.innerHTML = `<strong>${currentUser.roleName || '人員'}您好！</strong> 員工ID: ${currentUser.employeeId}`;
-    }
-}
-
-function searchPatient() {
-    const query = document.getElementById('searchInput').value.trim().toLowerCase();
-    if (!query) return alert('請輸入搜尋內容');
-
-    const patientList = JSON.parse(localStorage.getItem('patientList')) || [];
-    const foundPatient = patientList.find(p => 
-        (p.NAME && p.NAME.toLowerCase().includes(query)) || 
-        (p.ID_NUMBER && p.ID_NUMBER.toLowerCase() === query)
-    );
-
-    if (foundPatient) {
-        fillPatientFormLocal(foundPatient);
-        // 角色權限控管
-        if (currentUser) {
-            const editBtn = document.getElementById('editPatientBtn');
-            const deleteBtn = document.getElementById('deletePatientBtn');
-            if (editBtn) editBtn.style.display = (['doctor', 'therapist'].includes(currentUser.role)) ? 'inline-block' : 'none';
-            if (deleteBtn) deleteBtn.style.display = (currentUser.role === 'doctor') ? 'inline-block' : 'none';
-        }
-    } else {
-        alert('找不到該病患資料');
-    }
-}
-
-function fillPatientFormLocal(p) {
-    currentPatientId = p.ID_NUMBER;
-    document.getElementById('patientName').value = p.NAME || '';
-    document.getElementById('patientGender').value = p.GENDER || '';
-    document.getElementById('patientBirth').value = p.BIRTHDATE || '';
-    document.getElementById('patientIdentityNumber').value = p.ID_NUMBER || '';
-    document.getElementById('patientPhone').value = p.PHONE || '';
-    document.getElementById('patientBloodType').value = p.BLOOD_TYPE || '';
-    document.getElementById('patientAddress').value = p.ADDRESS || '';
-    document.getElementById('EmergencyPhone').value = p.EMERGENCY_PHONE || '';
-    document.getElementById('patientBadHabits').value = p.BAD_HABITS || '';
-    document.getElementById('patientFamilyHistory').value = p.FAMILY_HISTORY || '';
-    document.getElementById('patientAllergy').value = p.ALLERGY_HISTORY || '';
-    originalPatientData = { ...p };
-}
-
-function toggleEditMode(isEditing) {
-    const inputs = document.querySelectorAll('.detail-input, .detail-select');
-    inputs.forEach(input => input.disabled = !isEditing);
-
-    document.getElementById('editPatientBtn').style.display = isEditing ? 'none' : 'inline-block';
-    document.getElementById('savePatientBtn').style.display = isEditing ? 'inline-block' : 'none';
-    document.getElementById('cancelEditBtn').style.display = isEditing ? 'inline-block' : 'none';
-}
-
-function savePatientLocal() {
-    const name = document.getElementById('patientName').value.trim();
-    const idNumber = document.getElementById('patientIdentityNumber').value.trim();
-
-    if (!name || !idNumber) {
-        alert('姓名與身分證字號為必填項目');
+    if (data.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">查無相關病患資料</td></tr>`;
         return;
     }
 
-    const patientData = {
-        NAME: name,
-        GENDER: document.getElementById('patientGender').value,
-        BIRTHDATE: document.getElementById('patientBirth').value,
-        ID_NUMBER: idNumber,
-        PHONE: document.getElementById('patientPhone').value,
-        BLOOD_TYPE: document.getElementById('patientBloodType').value,
-        ADDRESS: document.getElementById('patientAddress').value,
-        EMERGENCY_PHONE: document.getElementById('EmergencyPhone').value,
-        BAD_HABITS: document.getElementById('patientBadHabits').value,
-        FAMILY_HISTORY: document.getElementById('patientFamilyHistory').value,
-        ALLERGY_HISTORY: document.getElementById('patientAllergy').value
-    };
+    data.forEach(patient => {
+        const tr = document.createElement('tr');
+        
+        // 根據狀態設定不同的 Badge 顏色
+        const statusClass = patient.status === "住院中" ? "status-in" : "status-out";
 
-    let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
-    const index = patientList.findIndex(p => p.ID_NUMBER === idNumber);
-    
-    if (index !== -1) {
-        patientList[index] = patientData;
-    } else {
-        patientList.push(patientData);
-    }
-
-    localStorage.setItem('patientList', JSON.stringify(patientList));
-    alert('資料已成功儲存！');
-    toggleEditMode(false);
+        tr.innerHTML = `
+            <td>${patient.id}</td>
+            <td><strong>${patient.name}</strong></td>
+            <td>${patient.gender} / ${patient.age}</td>
+            <td>${patient.department}</td>
+            <td><span class="status-badge ${statusClass}">${patient.status}</span></td>
+            <td><button class="btn-view-detail" onclick="viewDetail('${patient.id}')">查看病歷</button></td>
+        `;
+        tableBody.appendChild(tr);
+    });
 }
 
-function deletePatientLocal() {
-    if (!currentPatientId) {
-        alert('請先搜尋病患');
-        return;
-    }
-
-    if (confirm(`確定要刪除病患（ID：${currentPatientId}）嗎？`)) {
-        let patientList = JSON.parse(localStorage.getItem('patientList')) || [];
-        const updatedList = patientList.filter(p => p.ID_NUMBER !== currentPatientId);
-        localStorage.setItem('patientList', JSON.stringify(updatedList));
-        alert('病患資料已刪除');
-        location.reload();
-    }
+/**
+ * 6. 查看詳情（跳轉至 Records 頁面）
+ * @param {string} id - 病患 ID
+ */
+function viewDetail(id) {
+    // 將 ID 傳遞給 records 頁面 (透過 URL 參數)
+    window.location.href = `./records.html?id=${id}`;
 }
