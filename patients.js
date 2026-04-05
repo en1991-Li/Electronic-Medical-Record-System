@@ -1,37 +1,90 @@
 /**
  * patients.js
- * 負責處理病患列表的顯示、搜尋與跳轉功能
+ * 模擬病患詳細資料與表單操作邏輯
  */
 
-// 1. 模擬病患資料庫 (Mock Data)
-const mockPatients = [
-    { id: "A001", name: "王小明", gender: "男", age: 45, department: "心臟內科", status: "住院中" },
-    { id: "A002", name: "李小美", gender: "女", age: 62, department: "一般外科", status: "已出院" },
-    { id: "A003", name: "張大衛", gender: "男", age: 28, department: "骨科", status: "住院中" },
-    { id: "A004", name: "趙小鳳", gender: "女", age: 35, department: "婦產科", status: "住院中" },
-    { id: "A005", name: "陳大文", gender: "男", age: 50, department: "心臟內科", status: "已出院" }
-];
+// 1. 模擬病患資料庫
+const mockPatientDetails = {
+    "A123456789": {
+        name: "王小明",
+        gender: "M",
+        birth: "1985-05-20",
+        idNumber: "A123456789",
+        phone: "0912-345-678",
+        bloodType: "O",
+        address: "台北市大安區敦化南路一段 100 號",
+        emergencyPhone: "0922-111-222",
+        badHabits: "偶爾吸菸 (一天約 5 根)",
+        familyHistory: "父親有高血壓與糖尿病病史",
+        medicalHistory: "yes",
+        allergy: "盤尼西林 (Penicillin)"
+    },
+    "B223344556": {
+        name: "李小華",
+        gender: "F",
+        birth: "1992-11-05",
+        idNumber: "B223344556",
+        phone: "0933-888-999",
+        bloodType: "A",
+        address: "台中市西屯區台灣大道三段 99 號",
+        emergencyPhone: "04-2345-6789",
+        badHabits: "無",
+        familyHistory: "無特殊遺傳病史",
+        medicalHistory: "none",
+        allergy: "塵蟎、海鮮過敏"
+    }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("✅ patients.js 已成功載入");
+    console.log("✅ Patients 模擬系統載入成功");
 
-    const patientTableBody = document.getElementById('patientTableBody');
-    const searchInput = document.getElementById('patientSearchInput');
+    // 取得 DOM 元素
+    const searchBtn = document.getElementById('searchBtn'); // 對應 HTML 的「搜尋」按鈕
+    const searchInput = document.getElementById('patientSearchInput'); // 對應搜尋框
     const logoutBtn = document.getElementById('logoutBtn');
+    const editBtn = document.getElementById('editPatientBtn'); // 對應「編輯資料」按鈕
 
-    // --- 2. 初始化：渲染所有病患 ---
-    renderPatients(mockPatients);
+    // --- 2. 搜尋邏輯 ---
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            const keyword = searchInput.value.trim().toUpperCase();
+            
+            if (!keyword) {
+                alert("請輸入病患姓名或身分證字號 (例如: A123456789)");
+                return;
+            }
 
-    // --- 3. 搜尋過濾功能 ---
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const keyword = e.target.value.toLowerCase();
-            const filteredData = mockPatients.filter(p => 
-                p.name.toLowerCase().includes(keyword) || 
-                p.id.toLowerCase().includes(keyword) ||
-                p.department.includes(keyword)
-            );
-            renderPatients(filteredData);
+            // 尋找資料 (這裡支援用 ID 搜尋)
+            const data = mockPatientDetails[keyword];
+
+            if (data) {
+                fillPatientForm(data);
+                console.log(`已找到病患：${data.name}`);
+            } else {
+                alert("查無此病患資料。您可以試試搜尋範例 ID：A123456789");
+            }
+        });
+    }
+
+    // --- 3. 編輯模式切換 ---
+    if (editBtn) {
+        editBtn.addEventListener('click', () => {
+            const inputs = document.querySelectorAll('.detail-input, .detail-select');
+            const saveBtn = document.getElementById('savePatientBtn');
+            const cancelBtn = document.getElementById('cancelEditBtn');
+            
+            const isCurrentlyDisabled = inputs[0].disabled;
+
+            // 切換輸入框狀態
+            inputs.forEach(input => input.disabled = !isCurrentlyDisabled);
+
+            // 切換按鈕文字與顯示隱藏
+            if (isCurrentlyDisabled) {
+                // 進入編輯模式
+                editBtn.style.display = "none";
+                if(saveBtn) saveBtn.style.display = "inline-block";
+                if(cancelBtn) cancelBtn.style.display = "inline-block";
+            }
         });
     }
 
@@ -44,46 +97,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 支援按下 Enter 鍵直接搜尋
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchBtn.click();
+        });
+    }
 });
 
 /**
- * 5. 渲染表格函數
- * @param {Array} data - 要顯示的病患陣列
+ * 5. 將模擬資料填入 HTML 表單欄位
  */
-function renderPatients(data) {
-    const tableBody = document.getElementById('patientTableBody');
-    if (!tableBody) return;
-
-    tableBody.innerHTML = ""; // 先清空表格
-
-    if (data.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">查無相關病患資料</td></tr>`;
-        return;
-    }
-
-    data.forEach(patient => {
-        const tr = document.createElement('tr');
-        
-        // 根據狀態設定不同的 Badge 顏色
-        const statusClass = patient.status === "住院中" ? "status-in" : "status-out";
-
-        tr.innerHTML = `
-            <td>${patient.id}</td>
-            <td><strong>${patient.name}</strong></td>
-            <td>${patient.gender} / ${patient.age}</td>
-            <td>${patient.department}</td>
-            <td><span class="status-badge ${statusClass}">${patient.status}</span></td>
-            <td><button class="btn-view-detail" onclick="viewDetail('${patient.id}')">查看病歷</button></td>
-        `;
-        tableBody.appendChild(tr);
-    });
-}
-
-/**
- * 6. 查看詳情（跳轉至 Records 頁面）
- * @param {string} id - 病患 ID
- */
-function viewDetail(id) {
-    // 將 ID 傳遞給 records 頁面 (透過 URL 參數)
-    window.location.href = `./records.html?id=${id}`;
+function fillPatientForm(data) {
+    document.getElementById('patientName').value = data.name;
+    document.getElementById('patientGender').value = data.gender;
+    document.getElementById('patientBirth').value = data.birth;
+    document.getElementById('patientIdentityNumber').value = data.idNumber;
+    document.getElementById('patientPhone').value = data.phone;
+    document.getElementById('patientBloodType').value = data.bloodType;
+    document.getElementById('patientAddress').value = data.address;
+    document.getElementById('EmergencyPhone').value = data.emergencyPhone;
+    document.getElementById('patientBadHabits').value = data.badHabits;
+    document.getElementById('patientFamilyHistory').value = data.familyHistory;
+    document.getElementById('patientMedicalHistory').value = data.medicalHistory;
+    document.getElementById('patientAllergy').value = data.allergy;
 }
