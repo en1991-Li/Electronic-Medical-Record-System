@@ -9,11 +9,11 @@ const mockSchedules = {
         deptId: "CARD-01",
         deptName: "心臟內科",
         deptDesc: "專注於心血管疾病診治，包含高血壓、心律不整及冠狀動脈疾病之長期追蹤與手術評估。",
-        staffName: "王小明",
+        staffName: "李小恩",
         staffGender: "M",
         staffTitle: "主治醫師",
         staffExperience: "12 年",
-        scheduleDate: "2026-04-01",
+        scheduleDate: "2026-04-20",
         staffId: "STF-882",
         scheduleSlot: "morning"
     },
@@ -21,11 +21,11 @@ const mockSchedules = {
         deptId: "SURG-05",
         deptName: "一般外科",
         deptDesc: "提供各類腹腔手術、創傷處理及門診手術諮詢。",
-        staffName: "陳大明",
+        staffName: "陳志明",
         staffGender: "M",
         staffTitle: "副院長",
         staffExperience: "25 年",
-        scheduleDate: "2026-04-02",
+        scheduleDate: "2026-04-22",
         staffId: "STF-102",
         scheduleSlot: "afternoon"
     }
