@@ -1,5 +1,5 @@
 /* =========================================
-   1. 基礎設定 (Global)
+   1. 基礎設定
    ========================================= */
 body { 
     font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; 
@@ -12,7 +12,7 @@ body {
    2. 導覽列 (Navbar)
    ========================================= */
 .navbar {
-    background-color: #a3d5e4; /* 截圖中的藍綠色 */
+    background-color: #a3d5e4; 
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -27,8 +27,8 @@ body {
 
 .navbar button {
     background-color: white;
-    border: 1px solid transparent;
-    border-radius: 8px; /* 圓角按鈕 */
+    border: none;
+    border-radius: 8px;
     padding: 8px 18px;
     font-size: 14px;
     font-weight: bold;
@@ -38,11 +38,11 @@ body {
 }
 
 .navbar button:hover {
-    background-color: #f8f9fa;
+    background-color: #f0f7f9;
 }
 
 .navbar button.active {
-    color: #007bff; /* 當前頁面藍字 */
+    color: #007bff; /* 藍色文字標示目前頁面 */
 }
 
 .btn-logout {
@@ -72,13 +72,12 @@ body {
 .avatar-circle {
     width: 70px;
     height: 70px;
-    background-color: #ccc; /* 截圖中的灰色人頭背景 */
+    background-color: #ccc; /* 灰色人頭背景 */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 35px;
-    color: white;
+    font-size: 40px;
     flex-shrink: 0;
 }
 
@@ -90,10 +89,9 @@ body {
 }
 
 .search-group label {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: #444;
-    white-space: nowrap;
 }
 
 .search-group input {
@@ -107,7 +105,7 @@ body {
 }
 
 .btn-orange-search {
-    background-color: #f0ad4e; /* 截圖中的橘黃色 */
+    background-color: #f0ad4e; /* 橘黃色查詢按鈕 */
     color: white;
     border: none;
     padding: 10px 30px;
@@ -117,7 +115,7 @@ body {
 }
 
 /* =========================================
-   4. 三欄式卡片佈局 (Main Grid)
+   4. 三欄式卡片佈局
    ========================================= */
 .main-grid {
     display: grid;
@@ -130,12 +128,13 @@ body {
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    min-height: 500px;
 }
 
 .column-title {
     text-align: center;
-    font-size: 1.6rem;
-    font-weight: 800;
+    font-size: 1.8rem;
+    font-weight: bold;
     color: #444;
     margin-bottom: 30px;
     letter-spacing: 2px;
@@ -153,7 +152,7 @@ body {
 
 .form-item label {
     font-size: 16px;
-    color: #888; /* 淺灰色標籤文字 */
+    color: #888;
 }
 
 .form-item input, 
@@ -162,24 +161,14 @@ body {
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 10px;
-    background-color: #f8f9fa; /* 截圖中的淡灰色輸入框背景 */
+    background-color: #f8f9fa; /* 淺灰色背景 */
     font-size: 16px;
     outline: none;
-    color: #333;
-}
-
-.form-item select {
-    appearance: none; /* 移除預設箭頭 */
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 15px;
-    cursor: pointer;
 }
 
 textarea {
     resize: none;
-    height: 250px; /* 配合截圖的科別簡介高度 */
+    height: 200px;
 }
 
 /* =========================================
@@ -188,18 +177,17 @@ textarea {
 .bottom-actions {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
     margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 .bottom-actions button {
-    padding: 10px 25px;
-    border-radius: 25px; /* 橢圓形按鈕 */
+    padding: 10px 35px;
+    border-radius: 30px; /* 橢圓形按鈕 */
     border: 1px solid #ddd;
     background-color: #f1f3f5;
     color: #333;
-    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
@@ -209,11 +197,9 @@ textarea {
     background-color: #e2e6ea;
 }
 
-/* =========================================
-   7. 響應式 (Responsive)
-   ========================================= */
+/* 響應式：手機版變單欄 */
 @media (max-width: 1000px) {
     .main-grid {
-        grid-template-columns: 1fr; /* 小螢幕改為單欄 */
+        grid-template-columns: 1fr;
     }
 }
