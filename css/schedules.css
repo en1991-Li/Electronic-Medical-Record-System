@@ -1,239 +1,219 @@
 /* =========================================
-   1. 導覽列 (Navbar) - 統一白色按鈕
+   1. 基礎設定 (Global)
+   ========================================= */
+body { 
+    font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; 
+    margin: 0; 
+    background-color: #e9f1f4; /* 淺藍色背景 */
+    color: #333;
+}
+
+/* =========================================
+   2. 導覽列 (Navbar)
    ========================================= */
 .navbar {
-    background-color: #a3d5e4;
-    padding: 12px 20px;
+    background-color: #a3d5e4; /* 截圖中的藍綠色 */
+    padding: 10px 20px;
     display: flex;
-    justify-content: flex-start; 
+    justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.nav-left {
+    display: flex;
+    gap: 10px;
 }
 
 .navbar button {
     background-color: white;
-    border: none;
-    border-radius: 6px;
-    height: 38px;           
-    padding: 0 15px;        
-    min-width: 90px;        
-    color: #333;
+    border: 1px solid transparent;
+    border-radius: 8px; /* 圓角按鈕 */
+    padding: 8px 18px;
     font-size: 14px;
     font-weight: bold;
+    color: #333;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
+    transition: 0.2s;
 }
 
 .navbar button:hover {
-    background-color: #f0f0f0;
+    background-color: #f8f9fa;
 }
 
-/* Logout 按鈕 - 統一白色且靠右 */
-.navbar button.btn-logout {
-    background-color: white !important;
-    color: #333 !important;
-    margin-left: auto; 
-}
-
-/* 當前頁面標示 */
 .navbar button.active {
-    color: #007bff;
-    border: 1px solid #007bff; /* 增加一點辨識度 */
+    color: #007bff; /* 當前頁面藍字 */
+}
+
+.btn-logout {
+    font-weight: bold;
 }
 
 /* =========================================
-   2. 主容器與上方查詢區 (Search Bar)
+   3. 搜尋區 (Search Section)
    ========================================= */
-body { 
-    font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif; 
-    margin: 0; 
-    background-color: #e9f1f4; /* 淺藍色背景 */
-}
-
 .schedules-container {
-    padding: 20px;
+    padding: 30px;
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .search-section {
     background: white;
-    border-radius: 15px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 25px 40px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    gap: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* 👤 人頭圖示區塊 */
 .avatar-circle {
-    width: 60px;
-    height: 60px;
-    background-color: #f8f9fa; /* 淺灰背景 */
-    border: 2px solid #dee2e6;  /* 細邊框 */
-    border-radius: 50%;        /* 圓形 */
-    display: flex;             /* 啟用 Flexbox 置中 */
+    width: 70px;
+    height: 70px;
+    background-color: #ccc; /* 截圖中的灰色人頭背景 */
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;           /* 圖示大小 */
-    color: #6c757d;            /* 圖示顏色 */
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); /* 內陰影 */
-    flex-shrink: 0;            /* 防止變形 */
+    font-size: 35px;
+    color: white;
+    flex-shrink: 0;
 }
 
 .search-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     flex-grow: 1;
 }
 
 .search-group label {
+    font-size: 1.5rem;
     font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
+    color: #444;
     white-space: nowrap;
 }
 
 .search-group input {
     flex-grow: 1;
-    max-width: 400px;
-    padding: 10px;
+    max-width: 600px;
+    padding: 12px 15px;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    border-radius: 8px;
+    font-size: 16px;
     outline: none;
 }
 
-.search-group input:focus {
-    border-color: #ffa500;
-}
-
 .btn-orange-search {
-    background-color: #ffa500;
+    background-color: #f0ad4e; /* 截圖中的橘黃色 */
     color: white;
     border: none;
-    padding: 10px 25px;
-    border-radius: 6px;
+    padding: 10px 30px;
+    border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-orange-search:hover {
-    background-color: #e69500;
 }
 
 /* =========================================
-   3. 三欄式卡片佈局 (Grid)
+   4. 三欄式卡片佈局 (Main Grid)
    ========================================= */
 .main-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
 }
 
 .schedule-column-card {
     background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    min-height: 450px;
-    display: flex;
-    flex-direction: column;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .column-title {
     text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #f0f0f0;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #444;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
 }
 
 /* =========================================
-   4. 表單元素樣式
+   5. 表單元素 (Form Items)
    ========================================= */
 .form-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 .form-item label {
-    font-size: 14px;
-    color: #666;
-    font-weight: 600;
+    font-size: 16px;
+    color: #888; /* 淺灰色標籤文字 */
 }
 
 .form-item input, 
 .form-item select, 
 .form-item textarea {
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #eee;
-    border-radius: 6px;
-    background-color: #fafafa;
-    font-size: 14px;
+    border-radius: 10px;
+    background-color: #f8f9fa; /* 截圖中的淡灰色輸入框背景 */
+    font-size: 16px;
     outline: none;
-    transition: border 0.2s;
-}
-
-.form-item input:focus, 
-.form-item select:focus, 
-.form-item textarea:focus {
-    border-color: #a3d5e4;
+    color: #333;
 }
 
 .form-item select {
-    background-color: #e9ecef; /* 下拉選單灰色背景 */
+    appearance: none; /* 移除預設箭頭 */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 15px;
     cursor: pointer;
-}
-
-.form-item input[readonly] {
-    background-color: #f1f3f5;
-    cursor: not-allowed;
 }
 
 textarea {
     resize: none;
-    height: 120px;
+    height: 250px; /* 配合截圖的科別簡介高度 */
 }
 
 /* =========================================
-   5. 響應式 (Responsive)
+   6. 底部按鈕區 (Bottom Actions)
    ========================================= */
-@media (max-width: 1100px) {
-    .main-grid {
-        grid-template-columns: repeat(2, 1fr); /* 中螢幕改為二欄 */
-    }
+.bottom-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
-@media (max-width: 768px) {
+.bottom-actions button {
+    padding: 10px 25px;
+    border-radius: 25px; /* 橢圓形按鈕 */
+    border: 1px solid #ddd;
+    background-color: #f1f3f5;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.bottom-actions button:hover {
+    background-color: #e2e6ea;
+}
+
+/* =========================================
+   7. 響應式 (Responsive)
+   ========================================= */
+@media (max-width: 1000px) {
     .main-grid {
         grid-template-columns: 1fr; /* 小螢幕改為單欄 */
-    }
-    
-    .search-section {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    
-    .search-group {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .search-group input {
-        max-width: none;
-        width: 100%;
     }
 }
