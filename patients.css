@@ -1,0 +1,130 @@
+/* =========================================
+   1. 導覽列 (Navbar) - 統一白色按鈕樣式
+   ========================================= */
+.navbar {
+    background-color: #a3d5e4; /* 水藍色背景 */
+    padding: 12px 20px;
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar button {
+    background-color: white; /* 所有按鈕統一白色背景 */
+    border: none;
+    border-radius: 6px;
+    
+    /* 統一高度與最小寬度 */
+    height: 38px;           
+    padding: 0 15px;        
+    min-width: 90px;        
+    
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.navbar button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+/* 當前頁面標示 (Patients) */
+.navbar button.active {
+    color: #007bff;
+    background-color: #f8f9fa;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Logout 按鈕 */
+.navbar button.btn-logout {
+    background-color: white !important;
+    color: #333 !important;            
+    margin-left: auto;             
+}
+
+/* =========================================
+   2. 病患列表頁面樣式
+   ========================================= */
+body { 
+    font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif; 
+    margin: 0; 
+    background-color: #F4F6F8; 
+}
+
+.patients-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* 搜尋與過濾區塊 */
+.filter-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-card input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* 病患表格樣式 */
+.patient-table {
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-collapse: collapse;
+}
+
+.patient-table th, .patient-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.patient-table th {
+    background-color: #f8f9fa;
+    color: #555;
+    font-weight: bold;
+}
+
+.patient-table tr:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+/* 操作按鈕 */
+.btn-view {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 響應式 */
+@media (max-width: 768px) {
+    .navbar { flex-wrap: wrap; }
+    .filter-card { flex-direction: column; }
+}
