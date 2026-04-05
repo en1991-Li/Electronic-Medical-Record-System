@@ -1,10 +1,10 @@
 /**
- * patients.js
- * 模擬病患詳細資料與表單操作邏輯
+ * patients.js 
+ * 功能：搜尋病患、切換編輯模式、模擬資料管理
  */
 
-// 1. 模擬病患資料庫
-const mockPatientDetails = {
+// 1. 模擬資料庫
+const mockPatientData = {
     "A123456789": {
         name: "王小明",
         gender: "M",
@@ -15,53 +15,38 @@ const mockPatientDetails = {
         address: "台北市大安區敦化南路一段 100 號",
         emergencyPhone: "0922-111-222",
         badHabits: "偶爾吸菸 (一天約 5 根)",
-        familyHistory: "父親有高血壓與糖尿病病史",
+        familyHistory: "父親有高血壓病史",
         medicalHistory: "yes",
         allergy: "盤尼西林 (Penicillin)"
-    },
-    "B223344556": {
-        name: "李小華",
-        gender: "F",
-        birth: "1992-11-05",
-        idNumber: "B223344556",
-        phone: "0933-888-999",
-        bloodType: "A",
-        address: "台中市西屯區台灣大道三段 99 號",
-        emergencyPhone: "04-2345-6789",
-        badHabits: "無",
-        familyHistory: "無特殊遺傳病史",
-        medicalHistory: "none",
-        allergy: "塵蟎、海鮮過敏"
     }
 };
 
+// 用來暫存目前的資料，以便取消編輯時還原
+let currentLoadedData = null;
+
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("✅ Patients 模擬系統載入成功");
+    console.log("✅ Patients 系統載入成功");
 
-    // 取得 DOM 元素
-    const searchBtn = document.getElementById('searchBtn'); // 對應 HTML 的「搜尋」按鈕
-    const searchInput = document.getElementById('patientSearchInput'); // 對應搜尋框
+    // 取得主要按鈕與元素
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('patientSearchInput');
+    const editBtn = document.getElementById('editPatientBtn');
+    const saveBtn = document.getElementById('savePatientBtn');
+    const cancelBtn = document.getElementById('cancelEditBtn');
     const logoutBtn = document.getElementById('logoutBtn');
-    const editBtn = document.getElementById('editPatientBtn'); // 對應「編輯資料」按鈕
 
-    // --- 2. 搜尋邏輯 ---
+    // --- 2. 搜尋按鈕功能 ---
     if (searchBtn) {
         searchBtn.addEventListener('click', () => {
             const keyword = searchInput.value.trim().toUpperCase();
-            
-            if (!keyword) {
-                alert("請輸入病患姓名或身分證字號 (例如: A123456789)");
-                return;
-            }
-
-            // 尋找資料 (這裡支援用 ID 搜尋)
-            const data = mockPatientDetails[keyword];
+            const data = mockPatientData[keyword];
 
             if (data) {
+                currentLoadedData = data; // 存入暫存
                 fillPatientForm(data);
-                console.log(`已找到病患：${data.name}`);
+                console.log("資料填充完成");
             } else {
-                alert("查無此病患資料。您可以試試搜尋範例 ID：A123456789");
+                alert("查無此身分證字號，請試試輸入：A123456789");
             }
         });
     }
@@ -69,26 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 3. 編輯模式切換 ---
     if (editBtn) {
         editBtn.addEventListener('click', () => {
-            const inputs = document.querySelectorAll('.detail-input, .detail-select');
-            const saveBtn = document.getElementById('savePatientBtn');
-            const cancelBtn = document.getElementById('cancelEditBtn');
-            
-            const isCurrentlyDisabled = inputs[0].disabled;
+            if (!currentLoadedData) {
+                alert("請先搜尋並載入病患資料後再進行編輯");
+                return;
+            }
+            toggleEditMode(true);
+        });
+    }
 
-            // 切換輸入框狀態
-            inputs.forEach(input => input.disabled = !isCurrentlyDisabled);
+    // --- 4. 儲存與取消功能 ---
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            alert("資料儲存成功！(此為模擬訊息)");
+            toggleEditMode(false);
+        });
+    }
 
-            // 切換按鈕文字與顯示隱藏
-            if (isCurrentlyDisabled) {
-                // 進入編輯模式
-                editBtn.style.display = "none";
-                if(saveBtn) saveBtn.style.display = "inline-block";
-                if(cancelBtn) cancelBtn.style.display = "inline-block";
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            if (confirm("確定要放棄修改嗎？")) {
+                fillPatientForm(currentLoadedData); // 還原原始資料
+                toggleEditMode(false);
             }
         });
     }
 
-    // --- 4. 登出功能 ---
+    // --- 5. 登出功能 ---
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             if (confirm('確定要登出系統嗎？')) {
@@ -97,17 +88,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // 支援按下 Enter 鍵直接搜尋
-    if (searchInput) {
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchBtn.click();
-        });
-    }
 });
 
 /**
- * 5. 將模擬資料填入 HTML 表單欄位
+ * 切換表單編輯狀態
+ * @param {boolean} isEditMode - 是否為編輯模式
+ */
+function toggleEditMode(isEditMode) {
+    const inputs = document.querySelectorAll('.detail-input, .detail-select');
+    const editBtn = document.getElementById('editPatientBtn');
+    const saveBtn = document.getElementById('savePatientBtn');
+    const cancelBtn = document.getElementById('cancelEditBtn');
+
+    // 鎖定/解鎖所有輸入框
+    inputs.forEach(input => input.disabled = !isEditMode);
+
+    // 切換按鈕顯示狀態
+    if (isEditMode) {
+        editBtn.style.display = "none";
+        saveBtn.style.display = "inline-block";
+        cancelBtn.style.display = "inline-block";
+    } else {
+        editBtn.style.display = "inline-block";
+        saveBtn.style.display = "none";
+        cancelBtn.style.display = "none";
+    }
+}
+
+/**
+ * 將資料填入 HTML 欄位
  */
 function fillPatientForm(data) {
     document.getElementById('patientName').value = data.name;
