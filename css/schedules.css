@@ -202,95 +202,45 @@ textarea {
 }
 /* =========================================
    手機版響應式排版修正 (RWD)
-   ========================================= */
-
+   =========================================
+*/
 @media (max-width: 768px) {
-    /* 1. 調整整體容器邊距 */
-    .schedules-container {
-        padding: 15px;
-    }
-
-    /* 2. 導覽列按鈕改為兩列排版 (對應您的截圖) */
+    /* 1. 導覽列整體設定 */
     .navbar {
-        flex-direction: column; /* 讓導覽列與登出按鈕分層 */
+        display: block; /* 移除 flex，讓內部容器決定排版 */
         padding: 10px;
         height: auto;
     }
 
+    /* 2. 讓所有按鈕（包含 Logout）在同一個 Grid 網格內 */
+    /* 這裡假設您的 HTML 結構是所有按鈕都在同一個層級，或者您可以調整 HTML 將 Logout 放入 nav-left */
     .nav-left {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 強制改為兩欄排版 */
+        grid-template-columns: repeat(2, 1fr); /* 強制兩欄，每欄三個按鈕 */
         gap: 8px;
         width: 100%;
-        margin-bottom: 8px;
     }
 
-    .nav-left button, .btn-logout {
-        width: 100%;
-        margin: 0;
-        padding: 10px 5px;
+    /* 3. 統一所有按鈕樣式與大小 */
+    .navbar button, 
+    .btn-logout {
+        width: 100% !important; /* 強制填滿 Grid 單元格 */
+        margin: 0 !important;   /* 移除可能的邊距 */
+        padding: 10px 0;        /* 統一高度 */
         font-size: 14px;
-        text-align: center;
+        height: 40px;           /* 固定高度讓視覺更整齊 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
         box-sizing: border-box;
     }
 
-    .btn-logout {
-        background-color: white; /* 統一風格 */
-    }
-
-    /* 3. 搜尋區塊調整為單欄 */
-    .search-section {
-        flex-direction: column;
-        padding: 20px;
-        align-items: center;
-        text-align: center;
-    }
-
-    .search-group {
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
-    }
-
-    .search-group input {
-        width: 100%;
-        max-width: none;
-        text-align: center; /* 讓 placeholder 居中，對應截圖風格 */
-    }
-
-    .btn-orange-search {
-        width: 100px; /* 固定寬度，不要像 input 那麼長 */
-    }
-
-    .avatar-circle {
-        margin-bottom: 10px;
-    }
-
-    /* 4. 重點：將三欄式卡片改為單欄垂直堆疊 */
-    .main-grid {
-        grid-template-columns: 1fr; 
-        gap: 20px;
-    }
-
-    .schedule-column-card {
-        min-height: auto; /* 移除電腦版的高度限制 */
-        padding: 20px;
-    }
-
-    .column-title {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
-
-    /* 5. 底部按鈕垂直排列 */
-    .bottom-actions {
-        flex-direction: column;
-        gap: 12px;
-        align-items: center;
-    }
-
-    .bottom-actions button {
-        width: 80%; /* 寬度稍微縮減一點點，看起來更像原圖設計 */
-        padding: 12px;
+    /* 如果 Logout 按鈕在 nav-left 外部，我們需要手動調整它 */
+    #logoutBtn {
+        grid-column: 2; /* 指定它在第二欄 */
+        /* 若 Logout 不在 Grid 內，請參考下方 HTML 調整建議 */
     }
 }
+
+
+
