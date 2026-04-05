@@ -10,7 +10,7 @@ const mockSchedules = {
         deptName: "心臟內科",
         deptDesc: "專注於心血管疾病診治，包含高血壓、心律不整及冠狀動脈疾病之長期追蹤與手術評估。",
         staffName: "李小恩",
-        staffGender: "M",
+        staffGender: "F",
         staffTitle: "主治醫師",
         staffExperience: "12 年",
         scheduleDate: "2026-04-01",
