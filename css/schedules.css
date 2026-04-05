@@ -70,11 +70,19 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
+/* 修改後的 👤 圖示樣式 (同步 record.css 風格) */
 .avatar-circle {
     width: 60px;
     height: 60px;
-    background-color: #ccc;
+    background-color: #f8f9fa; /* 淺灰背景 */
+    border: 2px solid #dee2e6;  /* 增加細邊框 */
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;           /* 控制 👤 大小 */
+    color: #6c757d;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); /* 內陰影 */
 }
 
 .search-group {
@@ -107,6 +115,11 @@ body {
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-orange-search:hover {
+    background-color: #e69500;
 }
 
 /* =========================================
@@ -114,7 +127,7 @@ body {
    ========================================= */
 .main-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 依照截圖三欄並排 */
+    grid-template-columns: repeat(3, 1fr); /* 三欄並排 */
     gap: 20px;
 }
 
@@ -159,10 +172,16 @@ body {
     border-radius: 6px;
     background-color: #fafafa;
     font-size: 14px;
+    outline: none;
+}
+
+.form-item input:focus, 
+.form-item select:focus {
+    border-color: #a3d5e4;
 }
 
 .form-item select {
-    background-color: #e9ecef; /* 截圖中的下拉選單灰色背景 */
+    background-color: #e9ecef; /* 下拉選單灰色背景 */
     cursor: pointer;
 }
 
@@ -177,5 +196,18 @@ textarea {
 @media (max-width: 1000px) {
     .main-grid {
         grid-template-columns: 1fr; /* 平板手機改為單欄 */
+    }
+    
+    .search-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-group {
+        width: 100%;
+    }
+    
+    .search-group input {
+        max-width: none;
     }
 }
