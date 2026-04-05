@@ -1,8 +1,8 @@
 /* =========================================
-   1. 導覽列 (Navbar) - 統一白色按鈕樣式
+   1. 導覽列 (Navbar) - 統一白色按鈕
    ========================================= */
 .navbar {
-    background-color: #a3d5e4; /* 水藍色背景 */
+    background-color: #a3d5e4;
     padding: 12px 20px;
     display: flex;
     justify-content: flex-start; 
@@ -12,144 +12,170 @@
 }
 
 .navbar button {
-    background-color: white; /* 所有按鈕統一白色背景 */
+    background-color: white;
     border: none;
     border-radius: 6px;
-    
-    /* 統一高度與間距 */
     height: 38px;           
     padding: 0 15px;        
     min-width: 90px;        
-    
     color: #333;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s ease;
-    
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: all 0.2s;
 }
 
 .navbar button:hover {
     background-color: #f0f0f0;
-    transform: translateY(-1px);
 }
 
-/* 當前頁面標示 (Schedules) */
-.navbar button.active {
-    color: #007bff;
-    background-color: #f8f9fa;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-}
-
-/* Logout 按鈕*/
+/* Logout 按鈕 - 統一白色 */
 .navbar button.btn-logout {
     background-color: white !important;
-    color: #333 !important;            
-    margin-left: auto;
+    color: #333 !important;
+    margin-left: auto; /* 靠右對齊 */
+}
+
+/* 當前頁面標示 */
+.navbar button.active {
+    color: #007bff;
 }
 
 /* =========================================
-   2. 主容器與排程區塊設定
+   2. 主容器與上方查詢區 (Search Bar)
    ========================================= */
 body { 
     font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif; 
     margin: 0; 
-    background-color: #F4F6F8; 
+    background-color: #e9f1f4; /* 淺藍色背景 */
 }
 
-.schedules-container { 
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
+.schedules-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-/* 查詢與標題卡片 */
-.schedule-card {
+.search-section {
     background: white;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
-}
-
-.title-group {
+    border-radius: 15px;
+    padding: 20px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.search-input-group {
+.avatar-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #ccc;
+    border-radius: 50%;
+}
+
+.search-group {
     display: flex;
+    align-items: center;
     gap: 10px;
+    flex-grow: 1;
 }
 
-.search-input-group input {
+.search-group label {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+    white-space: nowrap;
+}
+
+.search-group input {
+    flex-grow: 1;
+    max-width: 400px;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 250px;
+    border-radius: 6px;
 }
 
-.btn-search {
-    background-color: #007bff;
+.btn-orange-search {
+    background-color: #ffa500;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: bold;
 }
 
 /* =========================================
-   3. 排程表格樣式
+   3. 三欄式卡片佈局 (Grid)
    ========================================= */
-.schedule-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 依照截圖三欄並排 */
+    gap: 20px;
 }
 
-.schedule-table th, .schedule-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+.schedule-column-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    min-height: 400px;
 }
 
-.schedule-table th {
-    background-color: #f8f9fa;
-    color: #555;
+.column-title {
+    text-align: center;
+    font-size: 1.2rem;
     font-weight: bold;
-}
-
-.schedule-table tr:hover {
-    background-color: #fcfcfc;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 /* =========================================
-   4. 狀態標籤 (Status Labels)
+   4. 表單元素樣式
    ========================================= */
-.status-tag {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
+.form-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
 }
 
-.status-confirmed { background-color: #d4edda; color: #155724; }
-.status-pending { background-color: #fff3cd; color: #856404; }
+.form-item label {
+    font-size: 14px;
+    color: #666;
+}
+
+.form-item input, 
+.form-item select, 
+.form-item textarea {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: #fafafa;
+    font-size: 14px;
+}
+
+.form-item select {
+    background-color: #e9ecef; /* 截圖中的下拉選單灰色背景 */
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
 
 /* =========================================
    5. 響應式
    ========================================= */
-@media (max-width: 768px) {
-    .navbar { flex-wrap: wrap; }
-    .title-group { flex-direction: column; align-items: flex-start; }
-    .search-input-group { width: 100%; }
-    .search-input-group input { flex-grow: 1; }
-    .schedule-table { display: block; overflow-x: auto; }
+@media (max-width: 1000px) {
+    .main-grid {
+        grid-template-columns: 1fr; /* 平板手機改為單欄 */
+    }
 }
