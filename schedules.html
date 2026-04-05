@@ -1,101 +1,109 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedules - 醫療排程管理</title>
-    <link rel="stylesheet" href="css/schedules.css">
-</head>
+    <title>排程管理系統 - Schedules</title>
+    <link rel="stylesheet" href="schedules.css">
+    </head>
 <body>
 
     <nav class="navbar">
-        <button onclick="window.location.href='./login.html'">Login</button>
-        <button onclick="window.location.href='./patients.html'">Patients</button>
-        <button onclick="window.location.href='./records.html'">Records</button>
-        <button class="active" onclick="window.location.href='./schedules.html'">Schedules</button>
-        <button onclick="window.location.href='./resources.html'">MedicalResourceUsage</button>
-        <button id="logoutBtn" class="btn-logout">Logout</button>
+        <button onclick="location.href='dashboard.html'">首頁</button>
+        <button class="active" onclick="location.href='schedules.html'">排程管理</button>
+        <button onclick="location.href='records.html'">病歷紀錄</button>
+        <button onclick="location.href='settings.html'">系統設定</button>
+        <button class="btn-logout" onclick="handleLogout()">登出</button>
     </nav>
 
-    <div class="schedules-container">
+    <main class="schedules-container">
         
-        <div class="search-section">
-            <div class="avatar-circle"></div>
-            <div class="search-group">
-                <label>Patient ID:</label>
-                <input type="text" id="scheduleSearchInput" placeholder="輸入病患 ID...">
-                <button id="scheduleSearchBtn" class="btn-orange-search">查詢</button>
+        <section class="search-section">
+            <div class="avatar-circle">
+                👤
             </div>
-        </div>
+            <div class="search-group">
+                <label for="patientSearch">姓名：</label>
+                <input type="text" id="patientSearch" placeholder="請輸入病患姓名或 ID...">
+                <button class="btn-orange-search">查詢</button>
+            </div>
+        </section>
 
         <div class="main-grid">
             
-            <div class="schedule-column-card">
-                <div class="column-title">科別</div>
+            <section class="schedule-column-card">
+                <h2 class="column-title">基本資訊</h2>
                 <div class="form-item">
-                    <label>科別 ID</label>
-                    <input type="text" id="deptId" readonly>
+                    <label>病患姓名</label>
+                    <input type="text" placeholder="姓名" readonly>
                 </div>
                 <div class="form-item">
-                    <label>科別名稱</label>
-                    <input type="text" id="deptName">
+                    <label>身分證字號</label>
+                    <input type="text" placeholder="A123456789" readonly>
                 </div>
                 <div class="form-item">
-                    <label>科別簡介</label>
-                    <textarea id="deptDesc"></textarea>
+                    <label>出生日期</label>
+                    <input type="date">
                 </div>
-            </div>
+                <div class="form-item">
+                    <label>聯繫電話</label>
+                    <input type="tel" placeholder="0912-345-678">
+                </div>
+            </section>
 
-            <div class="schedule-column-card">
-                <div class="column-title">員工基本資料</div>
+            <section class="schedule-column-card">
+                <h2 class="column-title">診斷與科別</h2>
                 <div class="form-item">
-                    <label>姓名</label>
-                    <input type="text" id="staffName">
-                </div>
-                <div class="form-item">
-                    <label>性別</label>
-                    <select id="staffGender">
-                        <option value="">請選擇</option>
-                        <option value="M">男</option>
-                        <option value="F">女</option>
+                    <label>看診科別</label>
+                    <select>
+                        <option value="">請選擇科別</option>
+                        <option value="gi">肝膽胃腸科</option>
+                        <option value="im">一般內科</option>
+                        <option value="gs">一般外科</option>
                     </select>
                 </div>
                 <div class="form-item">
-                    <label>職稱</label>
-                    <input type="text" id="staffTitle">
-                </div>
-                <div class="form-item">
-                    <label>年資</label>
-                    <input type="text" id="staffExperience">
-                </div>
-            </div>
-
-            <div class="schedule-column-card">
-                <div class="column-title">時間排程</div>
-                <div class="form-item">
-                    <label>日期</label>
-                    <input type="date" id="scheduleDate">
-                </div>
-                <div class="form-item">
-                    <label>員工編號</label>
-                    <input type="text" id="staffId">
-                </div>
-                <div class="form-item">
-                    <label>時段</label>
-                    <select id="scheduleSlot">
-                        <option value="">請選擇時段</option>
-                        <option value="morning">上午 (09:00 - 12:00)</option>
-                        <option value="afternoon">下午 (14:00 - 17:00)</option>
-                        <option value="evening">晚上 (18:00 - 21:00)</option>
+                    <label>負責醫師</label>
+                    <select>
+                        <option value="">請選擇醫師</option>
+                        <option value="dr_wang">王醫師</option>
+                        <option value="dr_lee">李醫師</option>
                     </select>
                 </div>
-            </div>
+                <div class="form-item">
+                    <label>預約時段</label>
+                    <select>
+                        <option value="morning">上午診</option>
+                        <option value="afternoon">下午診</option>
+                        <option value="evening">夜診</option>
+                    </select>
+                </div>
+            </section>
 
-        </div> <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-            <button class="btn-action-green">確認登記</button>
-            <button class="btn-action-red">取消重填</button>
+            <section class="schedule-column-card">
+                <h2 class="column-title">排程備註</h2>
+                <div class="form-item">
+                    <label>病況摘要 / 備註</label>
+                    <textarea placeholder="請輸入此次排程的特殊需求或病況說明..."></textarea>
+                </div>
+                <div class="form-item" style="margin-top: 20px;">
+                    <button class="btn-orange-search" style="width: 100%; height: 45px; font-size: 16px;">
+                        確認儲存排程
+                    </button>
+                </div>
+            </section>
+
         </div>
+    </main>
 
-    </div> <script src="js/schedules.js"></script>
+    <script>
+        function handleLogout() {
+            if(confirm('確定要登出系統嗎？')) {
+                // 這裡放置登出邏輯，例如清除 session 或跳轉
+                alert('已成功登出');
+                location.href = 'login.html';
+            }
+        }
+    </script>
 </body>
 </html>
