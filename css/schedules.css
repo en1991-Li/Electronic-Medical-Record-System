@@ -32,16 +32,17 @@
     background-color: #f0f0f0;
 }
 
-/* Logout 按鈕 - 統一白色 */
+/* Logout 按鈕 - 統一白色且靠右 */
 .navbar button.btn-logout {
     background-color: white !important;
     color: #333 !important;
-    margin-left: auto; /* 靠右對齊 */
+    margin-left: auto; 
 }
 
 /* 當前頁面標示 */
 .navbar button.active {
     color: #007bff;
+    border: 1px solid #007bff; /* 增加一點辨識度 */
 }
 
 /* =========================================
@@ -70,19 +71,20 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-/* 修改後的 👤 圖示樣式 (同步 record.css 風格) */
+/* 👤 人頭圖示區塊 */
 .avatar-circle {
     width: 60px;
     height: 60px;
     background-color: #f8f9fa; /* 淺灰背景 */
-    border: 2px solid #dee2e6;  /* 增加細邊框 */
-    border-radius: 50%;
-    display: flex;
+    border: 2px solid #dee2e6;  /* 細邊框 */
+    border-radius: 50%;        /* 圓形 */
+    display: flex;             /* 啟用 Flexbox 置中 */
     align-items: center;
     justify-content: center;
-    font-size: 32px;           /* 控制 👤 大小 */
-    color: #6c757d;
+    font-size: 32px;           /* 圖示大小 */
+    color: #6c757d;            /* 圖示顏色 */
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); /* 內陰影 */
+    flex-shrink: 0;            /* 防止變形 */
 }
 
 .search-group {
@@ -105,6 +107,11 @@ body {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
+    outline: none;
+}
+
+.search-group input:focus {
+    border-color: #ffa500;
 }
 
 .btn-orange-search {
@@ -127,7 +134,7 @@ body {
    ========================================= */
 .main-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 三欄並排 */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 20px;
 }
 
@@ -136,7 +143,9 @@ body {
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    min-height: 400px;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
 }
 
 .column-title {
@@ -162,6 +171,7 @@ body {
 .form-item label {
     font-size: 14px;
     color: #666;
+    font-weight: 600;
 }
 
 .form-item input, 
@@ -173,10 +183,12 @@ body {
     background-color: #fafafa;
     font-size: 14px;
     outline: none;
+    transition: border 0.2s;
 }
 
 .form-item input:focus, 
-.form-item select:focus {
+.form-item select:focus, 
+.form-item textarea:focus {
     border-color: #a3d5e4;
 }
 
@@ -185,29 +197,43 @@ body {
     cursor: pointer;
 }
 
+.form-item input[readonly] {
+    background-color: #f1f3f5;
+    cursor: not-allowed;
+}
+
 textarea {
     resize: none;
-    height: 100px;
+    height: 120px;
 }
 
 /* =========================================
-   5. 響應式
+   5. 響應式 (Responsive)
    ========================================= */
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
     .main-grid {
-        grid-template-columns: 1fr; /* 平板手機改為單欄 */
+        grid-template-columns: repeat(2, 1fr); /* 中螢幕改為二欄 */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr; /* 小螢幕改為單欄 */
     }
     
     .search-section {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
     
     .search-group {
+        flex-direction: column;
         width: 100%;
     }
     
     .search-group input {
         max-width: none;
+        width: 100%;
     }
 }
