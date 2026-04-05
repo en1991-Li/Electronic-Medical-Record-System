@@ -200,47 +200,105 @@ textarea {
 .bottom-actions button:hover {
     background-color: #e2e6ea;
 }
+
 /* =========================================
    手機版響應式排版修正 (RWD)
-   =========================================
-*/
+   ========================================= */
+
 @media (max-width: 768px) {
-    /* 1. 導覽列整體設定 */
+    /* 1. 調整整體容器邊距 */
+    .schedules-container {
+        padding: 15px;
+    }
+
+    /* 2. 導覽列按鈕排版修正 */
     .navbar {
-        display: block; /* 移除 flex，讓內部容器決定排版 */
+        display: block; /* 移除原本的 flex 配置 */
         padding: 10px;
         height: auto;
     }
 
-    /* 2. 讓所有按鈕（包含 Logout）在同一個 Grid 網格內 */
-    /* 這裡假設您的 HTML 結構是所有按鈕都在同一個層級，或者您可以調整 HTML 將 Logout 放入 nav-left */
+    /* 將 nav-left 擴展為包含所有 6 個按鈕的容器 */
     .nav-left {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 強制兩欄，每欄三個按鈕 */
+        grid-template-columns: repeat(2, 1fr); /* 強制兩欄排版 */
         gap: 8px;
         width: 100%;
+        margin-bottom: 0; /* 移除底部邊距，因為 Logout 現在就在裡面 */
     }
 
-    /* 3. 統一所有按鈕樣式與大小 */
-    .navbar button, 
-    .btn-logout {
-        width: 100% !important; /* 強制填滿 Grid 單元格 */
-        margin: 0 !important;   /* 移除可能的邊距 */
-        padding: 10px 0;        /* 統一高度 */
+    /* 統一所有按鈕樣式，確保 Logout 跟其他按鈕一模一樣 */
+    .nav-left button, 
+    .navbar .btn-logout {
+        width: 100%;
+        margin: 0;
+        padding: 10px 5px;
         font-size: 14px;
-        height: 40px;           /* 固定高度讓視覺更整齊 */
+        text-align: center;
+        box-sizing: border-box;
+        height: 45px; /* 統一高度 */
         display: flex;
         align-items: center;
         justify-content: center;
-        box-sizing: border-box;
+        background-color: white; /* 統一背景色 */
+        border-radius: 8px;
+        border: none;
+        font-weight: bold;
     }
 
-    /* 如果 Logout 按鈕在 nav-left 外部，我們需要手動調整它 */
-    #logoutBtn {
-        grid-column: 2; /* 指定它在第二欄 */
-        /* 若 Logout 不在 Grid 內，請參考下方 HTML 調整建議 */
+    /* 3. 搜尋區塊調整為單欄 */
+    .search-section {
+        flex-direction: column;
+        padding: 20px;
+        align-items: center;
+        text-align: center;
+        background: white;
+        border-radius: 20px;
+        margin-bottom: 25px;
+    }
+
+    .search-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .search-group label {
+        font-size: 1.2rem;
+    }
+
+    .search-group input {
+        width: 100%;
+        max-width: none;
+        text-align: center; 
+        padding: 12px;
+    }
+
+    .btn-orange-search {
+        width: 120px; 
+        padding: 10px;
+    }
+
+    /* 4. 卡片改為單欄垂直堆疊 */
+    .main-grid {
+        grid-template-columns: 1fr; 
+        gap: 20px;
+    }
+
+    .schedule-column-card {
+        min-height: auto; 
+        padding: 20px;
+    }
+
+    /* 5. 底部動作按鈕 */
+    .bottom-actions {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .bottom-actions button {
+        width: 90%; 
+        padding: 12px;
     }
 }
-
-
-
