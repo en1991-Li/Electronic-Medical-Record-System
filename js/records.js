@@ -1,6 +1,6 @@
 /**
  * records.js
- * 負責醫療紀錄頁面 (Records) 的資料搜尋與模擬填充
+ * 負責醫療紀錄頁面 (Records) 的資料搜尋、模擬填充與頭像顯示
  */
 
 // 1. 模擬醫療紀錄資料庫
@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. 搜尋核心功能 ---
     const performSearch = (id) => {
+        if (!id) return;
         const keyword = id.trim().toUpperCase();
         const data = mockMedicalRecords[keyword];
 
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fillMedicalForm(data);
             console.log(`已成功載入 ${data.name} 的詳細紀錄`);
         } else {
-            alert("查無此病患紀錄，請輸入正確的身分證字號。\n(測試範例：A123456789)");
+            alert("查無此病患紀錄，請輸入正確的身分證字號。\n(測試範例：A123456789 或 B123456789)");
         }
     };
 
@@ -92,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 3. URL 參數自動抓取 (連動 Patients 頁面) ---
+    // 當從 Patients 頁面點擊「查看」跳轉過來時，自動執行搜尋
     const urlParams = new URLSearchParams(window.location.search);
     const idFromUrl = urlParams.get('id');
     if (idFromUrl) {
@@ -111,12 +113,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 5. 將資料物件填入 HTML 對應 ID 的欄位
+ * 5. 將資料物件填入 HTML 對應 ID 的欄位，並處理頭像
  */
 function fillMedicalForm(data) {
-    // 頂部標題顯示區
+    // 頂部標題與 ID 顯示
     document.getElementById('patientNameDisplay').innerText = data.name;
     document.getElementById('patientIdDisplay').innerText = `Patient ID: ${data.id}`;
+
+    // --- 處理頭像顯示 ---
+    const avatarImg = document.getElementById('patientAvatar');
+    const avatarIcon = document.getElementById('avatarIcon');
+    if (avatarImg && avatarIcon) {
+        avatarImg.style.display = "block"; // 顯示圖片
+        avatarIcon.style.display = "none"; // 隱藏 👤 圖示
+        // avatarImg.src = "assets/avatar.png"; // 如果不同人有不同照片，可在此修改 src
+    }
 
     // 手術記錄
     document.getElementById('surgeryName').value = data.surgeryName;
