@@ -16,19 +16,17 @@
             <button class="active" onclick="location.href='schedules.html'">Schedules</button>
             <button onclick="location.href='resources.html'">MedicalResourceUsage</button>
         </div>
-        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+        <button class="btn-logout" id="logoutBtn">Logout</button>
     </nav>
 
     <main class="schedules-container">
         
         <section class="search-section">
-            <div class="avatar-circle">
-                👤
-            </div>
+            <div class="avatar-circle">👤</div>
             <div class="search-group">
                 <label>Patient ID:</label>
-                <input type="text" placeholder="輸入病患 ID...">
-                <button class="btn-orange-search">查詢</button>
+                <input type="text" id="scheduleSearchInput" placeholder="輸入病患 ID (如: P001)...">
+                <button class="btn-orange-search" id="scheduleSearchBtn">查詢</button>
             </div>
         </section>
 
@@ -38,15 +36,15 @@
                 <h2 class="column-title">科別</h2>
                 <div class="form-item">
                     <label>科別 ID</label>
-                    <input type="text">
+                    <input type="text" id="deptId" readonly>
                 </div>
                 <div class="form-item">
                     <label>科別名稱</label>
-                    <input type="text">
+                    <input type="text" id="deptName" readonly>
                 </div>
                 <div class="form-item">
                     <label>科別簡介</label>
-                    <textarea></textarea>
+                    <textarea id="deptDesc" readonly></textarea>
                 </div>
             </section>
 
@@ -54,11 +52,11 @@
                 <h2 class="column-title">員工基本資料</h2>
                 <div class="form-item">
                     <label>姓名</label>
-                    <input type="text">
+                    <input type="text" id="staffName">
                 </div>
                 <div class="form-item">
                     <label>性別</label>
-                    <select>
+                    <select id="staffGender">
                         <option value="">請選擇</option>
                         <option value="M">男</option>
                         <option value="F">女</option>
@@ -66,11 +64,11 @@
                 </div>
                 <div class="form-item">
                     <label>職稱</label>
-                    <input type="text">
+                    <input type="text" id="staffTitle">
                 </div>
                 <div class="form-item">
                     <label>年資</label>
-                    <input type="text">
+                    <input type="text" id="staffExperience">
                 </div>
             </section>
 
@@ -78,15 +76,15 @@
                 <h2 class="column-title">時間排程</h2>
                 <div class="form-item">
                     <label>日期</label>
-                    <input type="date">
+                    <input type="date" id="scheduleDate">
                 </div>
                 <div class="form-item">
                     <label>員工編號</label>
-                    <input type="text">
+                    <input type="text" id="staffId">
                 </div>
                 <div class="form-item">
                     <label>時段</label>
-                    <select>
+                    <select id="scheduleSlot">
                         <option value="">請選擇時段</option>
                         <option value="morning">上午診</option>
                         <option value="afternoon">下午診</option>
@@ -97,8 +95,8 @@
         </div>
 
         <div class="bottom-actions">
-            <button class="btn-confirm">確認登記</button>
-            <button class="btn-cancel">取消重填</button>
+            <button class="btn-action-green">確認登記</button>
+            <button class="btn-action-red">取消重填</button>
         </div>
 
     </main>
