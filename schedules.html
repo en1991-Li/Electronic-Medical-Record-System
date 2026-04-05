@@ -1,117 +1,40 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedules - 醫療排程系統</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="schedules.css">
-</head>
-<body>
-    <nav class="navbar">
-    <button onclick="window.location.href='index.html'">Login</button>
-    <button onclick="window.location.href='patients.html'">Patients</button>
-    <button onclick="window.location.href='records.html'">Records</button>
-    <button onclick="window.location.href='schedules.html'">Schedules</button>
-    <button onclick="window.location.href='resources.html'">MedicalResourceUsage</button>
-    <button id="logoutBtn" class="btn-logout">Logout</button>
-</nav>
-
-    <div class="schedules-container">
-        
-        <section class="patient-search-section">
-            <div class="search-card">
-                <div class="patient-info-brief">
-                    <div class="avatar-circle"></div>
-                    <div class="id-input-group">
-                        <label for="searchPatientId">Patient ID:</label>
-                        <input type="text" id="searchPatientId" placeholder="輸入病患 ID...">
-                        <button id="searchScheduleBtn" class="btn-orange">查詢</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="schedule-form-section">
-            <div class="schedule-grid">
-                
-                <div class="form-card">
-                    <div class="card-header"><h4>科別</h4></div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label>科別 ID</label>
-                            <input type="text" id="deptId" class="schedule-input">
-                        </div>
-                        <div class="form-group">
-                            <label>科別名稱</label>
-                            <input type="text" id="deptName" class="schedule-input">
-                        </div>
-                        <div class="form-group">
-                            <label>科別簡介</label>
-                            <textarea id="deptDesc" rows="4" class="schedule-textarea"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-card">
-                    <div class="card-header"><h4>員工基本資料</h4></div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label>姓名</label>
-                            <input type="text" id="staffName" class="schedule-input">
-                        </div>
-                        <div class="form-group">
-                            <label>性別</label>
-                            <select id="staffGender" class="schedule-select">
-                                <option value="">請選擇</option>
-                                <option value="M">男</option>
-                                <option value="F">女</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>職稱</label>
-                            <input type="text" id="staffTitle" class="schedule-input">
-                        </div>
-                        <div class="form-group">
-                            <label>年資</label>
-                            <input type="number" id="staffExperience" class="schedule-input">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-card">
-                    <div class="card-header"><h4>時間排程</h4></div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label>日期</label>
-                            <input type="date" id="scheduleDate" class="schedule-input">
-                        </div>
-                        <div class="form-group">
-                            <label>員工編號</label>
-                            <input type="text" id="staffId" class="schedule-input">
-                        </div>
-                        <div class="form-group">
-                            <label>時段</label>
-                            <select id="scheduleTimeSlot" class="schedule-select">
-                                <option value="">請選擇時段</option>
-                                <option value="morning">早班 (08:00 - 12:00)</option>
-                                <option value="afternoon">午班 (13:30 - 17:30)</option>
-                                <option value="night">晚班 (18:00 - 21:00)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <div class="action-footer">
-            <button id="addScheduleBtn" class="btn-green">新增</button>
-            <button id="deleteScheduleBtn" class="btn-red">刪除</button>
+<div class="schedules-container">
+    <div class="search-section">
+        <div class="avatar-circle"></div>
+        <div class="search-group">
+            <label>Patient ID:</label>
+            <input type="text" placeholder="輸入 ID...">
+            <button class="btn-orange-search">查詢</button>
         </div>
-
     </div>
 
-    <script src="schedules.js"></script>
-</body>
-</html>
+    <div class="main-grid">
+        <div class="schedule-column-card">
+            <div class="column-title">科別</div>
+            <div class="form-item"><label>科別 ID</label><input type="text"></div>
+            <div class="form-item"><label>科別名稱</label><input type="text"></div>
+            <div class="form-item"><label>科別簡介</label><textarea></textarea></div>
+        </div>
+
+        <div class="schedule-column-card">
+            <div class="column-title">員工基本資料</div>
+            <div class="form-item"><label>姓名</label><input type="text"></div>
+            <div class="form-item">
+                <label>性別</label>
+                <select><option>請選擇</option></select>
+            </div>
+            <div class="form-item"><label>職稱</label><input type="text"></div>
+            <div class="form-item"><label>年資</label><input type="text"></div>
+        </div>
+
+        <div class="schedule-column-card">
+            <div class="column-title">時間排程</div>
+            <div class="form-item"><label>日期</label><input type="date"></div>
+            <div class="form-item"><label>員工編號</label><input type="text"></div>
+            <div class="form-item">
+                <label>時段</label>
+                <select><option>請選擇時段</option></select>
+            </div>
+        </div>
+    </div>
+</div>
