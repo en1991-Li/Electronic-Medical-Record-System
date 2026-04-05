@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>排程管理系統 - Schedules</title>
     <link rel="stylesheet" href="schedules.css">
-    </head>
+</head>
 <body>
 
     <nav class="navbar">
@@ -24,7 +24,7 @@
             </div>
             <div class="search-group">
                 <label for="patientSearch">姓名：</label>
-                <input type="text" id="patientSearch" placeholder="請輸入病患姓名或 ID...">
+                <input type="text" id="patientSearch" placeholder="請輸入病患姓名進行查詢...">
                 <button class="btn-orange-search">查詢</button>
             </div>
         </section>
@@ -35,44 +35,51 @@
                 <h2 class="column-title">基本資訊</h2>
                 <div class="form-item">
                     <label>病患姓名</label>
-                    <input type="text" placeholder="姓名" readonly>
+                    <input type="text" id="infoName" placeholder="姓名" readonly>
                 </div>
                 <div class="form-item">
                     <label>身分證字號</label>
-                    <input type="text" placeholder="A123456789" readonly>
+                    <input type="text" id="infoId" placeholder="A123456789" readonly>
                 </div>
                 <div class="form-item">
-                    <label>出生日期</label>
-                    <input type="date">
+                    <label>聯絡電話</label>
+                    <input type="tel" id="infoPhone" placeholder="0900-000-000">
                 </div>
                 <div class="form-item">
-                    <label>聯繫電話</label>
-                    <input type="tel" placeholder="0912-345-678">
+                    <label>性別</label>
+                    <select id="infoGender">
+                        <option value="M">男</option>
+                        <option value="F">女</option>
+                    </select>
                 </div>
             </section>
 
             <section class="schedule-column-card">
-                <h2 class="column-title">診斷與科別</h2>
+                <h2 class="column-title">排程設定</h2>
+                <div class="form-item">
+                    <label>預約日期</label>
+                    <input type="date" id="scheduleDate">
+                </div>
                 <div class="form-item">
                     <label>看診科別</label>
-                    <select>
+                    <select id="department">
                         <option value="">請選擇科別</option>
-                        <option value="gi">肝膽胃腸科</option>
-                        <option value="im">一般內科</option>
-                        <option value="gs">一般外科</option>
+                        <option value="GI">肝膽胃腸科</option>
+                        <option value="IM">一般內科</option>
+                        <option value="GS">一般外科</option>
                     </select>
                 </div>
                 <div class="form-item">
                     <label>負責醫師</label>
-                    <select>
+                    <select id="doctor">
                         <option value="">請選擇醫師</option>
                         <option value="dr_wang">王醫師</option>
-                        <option value="dr_lee">李醫師</option>
+                        <option value="dr_chen">陳醫師</option>
                     </select>
                 </div>
                 <div class="form-item">
-                    <label>預約時段</label>
-                    <select>
+                    <label>時段</label>
+                    <select id="timeSlot">
                         <option value="morning">上午診</option>
                         <option value="afternoon">下午診</option>
                         <option value="evening">夜診</option>
@@ -81,10 +88,10 @@
             </section>
 
             <section class="schedule-column-card">
-                <h2 class="column-title">排程備註</h2>
+                <h2 class="column-title">其他備註</h2>
                 <div class="form-item">
-                    <label>病況摘要 / 備註</label>
-                    <textarea placeholder="請輸入此次排程的特殊需求或病況說明..."></textarea>
+                    <label>備註事項</label>
+                    <textarea id="notes" placeholder="請輸入特殊需求或過敏史..."></textarea>
                 </div>
                 <div class="form-item" style="margin-top: 20px;">
                     <button class="btn-orange-search" style="width: 100%; height: 45px; font-size: 16px;">
@@ -96,12 +103,13 @@
         </div>
     </main>
 
+    <script src="schedules.js"></script>
+
     <script>
+        // 簡單的導覽列行為與登出範例
         function handleLogout() {
-            if(confirm('確定要登出系統嗎？')) {
-                // 這裡放置登出邏輯，例如清除 session 或跳轉
-                alert('已成功登出');
-                location.href = 'login.html';
+            if (confirm('確定要登出嗎？')) {
+                window.location.href = 'login.html';
             }
         }
     </script>
