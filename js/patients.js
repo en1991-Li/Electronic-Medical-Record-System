@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fillPatientForm(data);
                 console.log(`已找到病患：${data.name}`);
             } else {
-                alert("查無此身分證字號。\n測試範例：\n1. 王小豪 (A123456789)\n2. 李小華 (B223344556)");
+                alert("查無此身分證字號。\n測試範例：\n1. 王小豪 (A123456789)\n2. 李小華 (B123456789)");
             }
         });
     }
