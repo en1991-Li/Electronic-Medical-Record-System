@@ -1,95 +1,97 @@
 /**
  * records.js
- * 負責病歷紀錄頁面的模擬資料搜尋與自動填充
+ * 負責醫療紀錄頁面 (Records) 的資料搜尋與模擬填充
  */
 
-// 1. 擴充模擬資料庫 (包含多位病患以供測試)
+// 1. 模擬醫療紀錄資料庫
 const mockMedicalRecords = {
     "A123456789": {
-        PatientName: "王小豪",
-        PatientID: "A123456789",
-        SurgeryName: "急性闌尾切除術",
-        SurgerySite: "右下腹部",
-        SurgerySuggestion: "術後需臥床休息 3 天，避免搬運重物，定期更換敷料。",
-        Complications: "無明顯併發症，僅輕微術後發燒",
-        WardName: "一般外科病房 502",
-        BedName: "靠窗位",
-        BedNumber: "B1",
-        StayDays: "5",
-        AdmissionDate: "2026-03-10",
-        DischargeDate: "2026-03-15",
-        AdmissionReason: "急性腹痛伴隨發燒（闌尾炎）",
-        DischargeReason: "傷口癒合良好，發炎指標恢復正常",
-        Allergen: "盤尼西林 (Penicillin)",
-        AllergySymptom: "皮膚紅疹、呼吸急促",
-        AllergySeverity: "High",
-        AllergyNotes: "禁止使用所有青黴素類藥物",
-        LabTestName: "血液常規檢查 (CBC) / CRP",
-        LabTestDate: "2026-03-11",
-        LabTestResult: "WBC: 12,500 (偏高), CRP: 45 (陽性)",
-        LabSuggestion: "符合急性感染特徵，建議抗生素治療"
+        name: "王小豪",
+        id: "A123456789",
+        // 手術記錄
+        surgeryName: "急性闌尾切除術 (Appendectomy)",
+        surgeryPart: "右下腹部",
+        surgerySuggestion: "術後需臥床休息 3 天，避免提重物，傷口需每日消毒並保持乾燥。",
+        surgeryComplications: "無明顯併發症，僅有輕微術後發燒 (37.8°C)，已退燒。",
+        // 住院記錄
+        hospitalWard: "一般外科病房",
+        hospitalBedName: "靠窗單人床",
+        hospitalBedNumber: "502-B",
+        hospitalStayDays: "5 天",
+        admissionDate: "2026-03-10",
+        dischargeDate: "2026-03-15",
+        admissionReason: "急性腹痛伴隨反彈痛、發燒，確診為急性闌尾炎。",
+        dischargeReason: "發炎指標 (WBC/CRP) 恢復正常，傷口癒合良好。",
+        // 過敏記錄
+        allergen: "盤尼西林 (Penicillin)",
+        allergySymptom: "全身性紅疹、搔癢、呼吸急促",
+        allergySeverity: "嚴重 (High)",
+        allergyNotes: "絕對禁止使用青黴素類抗生素，已註記於病歷封面。",
+        // 檢驗檢查
+        labTestName: "血液常規檢查 (CBC) / C-反應蛋白 (CRP)",
+        labTestDate: "2026-03-11",
+        labTestResult: "WBC: 14,500/uL (↑), CRP: 52 mg/L (↑)",
+        labTestSuggestion: "符合急性感染指標，術後三日需追蹤 CRP 數值直到降至 10 以下。"
     },
     "B123456789": {
-        PatientName: "李小華",
-        PatientID: "B123456789",
-        SurgeryName: "腹腔鏡膽囊切除術",
-        SurgerySite: "上腹部",
-        SurgerySuggestion: "術後採低油飲食，觀察是否有黃疸現象。",
-        Complications: "無",
-        WardName: "一般外科病房 305",
-        BedName: "走道位",
-        BedNumber: "A2",
-        StayDays: "3",
-        AdmissionDate: "2026-04-01",
-        DischargeDate: "2026-04-04",
-        AdmissionReason: "慢性膽囊炎反覆發作",
-        DischargeReason: "術後恢復順利",
-        Allergen: "塵蟎、海鮮",
-        AllergySymptom: "打噴嚏、流鼻涕",
-        AllergySeverity: "Low",
-        AllergyNotes: "日常護理注意通風即可",
-        LabTestName: "肝功能檢查 (AST/ALT)",
-        LabTestDate: "2026-04-01",
-        LabTestResult: "AST: 35, ALT: 40 (正常範圍)",
-        LabSuggestion: "肝功能數值正常，可安排手術"
+        name: "李小華",
+        id: "B123456789",
+        surgeryName: "腹腔鏡膽囊切除術",
+        surgeryPart: "上腹部",
+        surgerySuggestion: "術後採低油飲食，初期建議少量多餐，觀察是否有黃疸。",
+        surgeryComplications: "無",
+        hospitalWard: "內科病房",
+        hospitalBedName: "走道雙人床",
+        hospitalBedNumber: "305-A",
+        hospitalStayDays: "3 天",
+        admissionDate: "2026-04-01",
+        dischargeDate: "2026-04-04",
+        admissionReason: "慢性膽囊炎合併膽結石反覆發作。",
+        dischargeReason: "腹腔鏡微創傷口恢復良好，可正常進食。",
+        allergen: "塵蟎、海鮮 (蝦、蟹)",
+        allergySymptom: "打噴嚏、流鼻涕、局部蕁麻疹",
+        allergySeverity: "中等 (Medium)",
+        allergyNotes: "飲食避開帶殼海鮮，住院環境需注意空氣流通。",
+        labTestName: "肝功能檢查 (AST / ALT)",
+        labTestDate: "2026-04-01",
+        labTestResult: "AST: 38, ALT: 42 (正常上限內)",
+        labTestSuggestion: "數值穩定，可正常進行全身麻醉手術。"
     }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("✅ Records 系統載入成功");
+    console.log("✅ Records 系統邏輯載入成功");
 
-    const searchInput = document.getElementById('patientID'); // 搜尋框
-    const searchBtn = document.querySelector('.btn-search'); // 搜尋按鈕
+    const searchInput = document.getElementById('patientSearchInput');
+    const searchBtn = document.getElementById('searchPatientBtn');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    // --- 2. 核心功能：搜尋並填充 ---
+    // --- 2. 搜尋核心功能 ---
     const performSearch = (id) => {
         const keyword = id.trim().toUpperCase();
         const data = mockMedicalRecords[keyword];
 
         if (data) {
-            updateRecordFields(data);
-            console.log(`成功載入 ${data.PatientName} 的病歷資料`);
+            fillMedicalForm(data);
+            console.log(`已成功載入 ${data.name} 的詳細紀錄`);
         } else {
-            alert("查無此病患 ID，請試試：A123456789");
+            alert("查無此病患紀錄，請輸入正確的身分證字號。\n(測試範例：A123456789)");
         }
     };
 
-    // 監聽按鈕點擊
+    // 監聽查詢按鈕
     if (searchBtn) {
-        searchBtn.addEventListener('click', () => {
-            performSearch(searchInput.value);
-        });
+        searchBtn.addEventListener('click', () => performSearch(searchInput.value));
     }
 
-    // 支援 Enter 鍵搜尋
+    // 支援 Enter 鍵查詢
     if (searchInput) {
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') performSearch(searchInput.value);
         });
     }
 
-    // --- 3. 自動抓取網址參數 (從 Patients 頁面連動過來) ---
+    // --- 3. URL 參數自動抓取 (連動 Patients 頁面) ---
     const urlParams = new URLSearchParams(window.location.search);
     const idFromUrl = urlParams.get('id');
     if (idFromUrl) {
@@ -109,36 +111,38 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 5. 根據資料物件填充所有 HTML 欄位
+ * 5. 將資料物件填入 HTML 對應 ID 的欄位
  */
-function updateRecordFields(data) {
-    // 病患基本資料
-    document.getElementById('PatientName').value = data.PatientName;
-    document.getElementById('PatientID_Display').value = data.PatientID; // 注意：對應你的 HTML ID
+function fillMedicalForm(data) {
+    // 頂部標題顯示區
+    document.getElementById('patientNameDisplay').innerText = data.name;
+    document.getElementById('patientIdDisplay').innerText = `Patient ID: ${data.id}`;
 
-    // 手術紀錄
-    document.getElementById('SurgeryName').value = data.SurgeryName;
-    document.getElementById('SurgerySite').value = data.SurgerySite;
-    document.getElementById('SurgerySuggestion').value = data.SurgerySuggestion;
-    document.getElementById('Complications').value = data.Complications;
+    // 手術記錄
+    document.getElementById('surgeryName').value = data.surgeryName;
+    document.getElementById('surgeryPart').value = data.surgeryPart;
+    document.getElementById('surgerySuggestion').value = data.surgerySuggestion;
+    document.getElementById('surgeryComplications').value = data.surgeryComplications;
 
-    // 住院資訊
-    document.getElementById('WardName').value = data.WardName;
-    document.getElementById('BedName').value = data.BedName;
-    document.getElementById('BedNumber').value = data.BedNumber;
-    document.getElementById('StayDays').value = data.StayDays;
-    document.getElementById('AdmissionDate').value = data.AdmissionDate;
-    document.getElementById('DischargeDate').value = data.DischargeDate;
-    document.getElementById('AdmissionReason').value = data.AdmissionReason;
-    document.getElementById('DischargeReason').value = data.DischargeReason;
+    // 住院記錄
+    document.getElementById('hospitalWard').value = data.hospitalWard;
+    document.getElementById('hospitalBedName').value = data.hospitalBedName;
+    document.getElementById('hospitalBedNumber').value = data.hospitalBedNumber;
+    document.getElementById('hospitalStayDays').value = data.hospitalStayDays;
+    document.getElementById('admissionDate').value = data.admissionDate;
+    document.getElementById('dischargeDate').value = data.dischargeDate;
+    document.getElementById('admissionReason').value = data.admissionReason;
+    document.getElementById('dischargeReason').value = data.dischargeReason;
 
-    // 過敏與檢驗
-    document.getElementById('Allergen').value = data.Allergen;
-    document.getElementById('AllergySymptom').value = data.AllergySymptom;
-    document.getElementById('AllergySeverity').value = data.AllergySeverity;
-    document.getElementById('AllergyNotes').value = data.AllergyNotes;
-    document.getElementById('LabTestName').value = data.LabTestName;
-    document.getElementById('LabTestDate').value = data.LabTestDate;
-    document.getElementById('LabTestResult').value = data.LabTestResult;
-    document.getElementById('LabSuggestion').value = data.LabSuggestion;
+    // 過敏記錄
+    document.getElementById('allergen').value = data.allergen;
+    document.getElementById('allergySymptom').value = data.allergySymptom;
+    document.getElementById('allergySeverity').value = data.allergySeverity;
+    document.getElementById('allergyNotes').value = data.allergyNotes;
+
+    // 檢驗檢查
+    document.getElementById('labTestName').value = data.labTestName;
+    document.getElementById('labTestDate').value = data.labTestDate;
+    document.getElementById('labTestResult').value = data.labTestResult;
+    document.getElementById('labTestSuggestion').value = data.labTestSuggestion;
 }
