@@ -31,7 +31,7 @@
 
 後端 (Backend)：使用 Node.js (Express) 建構 RESTful API，處理業務邏輯與資料驗證。
 
-資料庫 (Database)：整合 MySQL 與 Oracle。
+資料庫 (Database)：MySQL。
 
 設計具備「參照完整性」的關聯式 Schema。
 
@@ -39,7 +39,7 @@
 
 前端 (Frontend)：HTML5, CSS3, JavaScript (ES6+)，目前正積極將組件遷移至 React 架構。
 
-工具：使用 HeidiSQL 進行資料庫管理與 SQL 優化。
+工具：使用 MySQL 進行資料庫管理與 SQL 優化。
 
 ## 📂 **專案目錄結構**
 Plaintext
