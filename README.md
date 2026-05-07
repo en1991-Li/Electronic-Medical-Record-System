@@ -1,7 +1,7 @@
-🏥 ##電子醫療病歷管理系統 (Electronic Medical Record System)##
+# 🏥 **電子醫療病歷管理系統 (Electronic Medical Record System)**
 這是一個全方位的醫療資訊管理平台，旨在透過數位化流程取代傳統紙本作業。本系統不僅涵蓋了核心的病患診斷紀錄，更延伸至醫護排班管理與醫療資源消耗追蹤，提供醫療機構一個穩定且具擴展性的後端管理方案。
 
-🌟 ##核心功能模組##
+## 🌟 **核心功能模組**
 1. 權限控管與身分驗證 (Auth & RBAC)
 
 角色識別：根據醫療人員 ID 自動判定職位（如：醫師、護理師、行政人員）。
@@ -26,7 +26,7 @@
 
 審計追蹤 (Audit Trail)：為每一筆資源使用建立明確的存取日誌，便於後續成本核算與庫存管理。
 
-🛠️ ##技術架構##
+## 🛠️ **技術架構**
 本專案採用前後端分離的思想設計，重點展示後端資料處理能力：
 
 後端 (Backend)：使用 Node.js (Express) 建構 RESTful API，處理業務邏輯與資料驗證。
@@ -41,7 +41,7 @@
 
 工具：使用 HeidiSQL 進行資料庫管理與 SQL 優化。
 
-📂 ##專案目錄結構##
+## 📂 **專案目錄結構**
 Plaintext
 ├── backend/            # Express Server 與 API 路由 (Patients, Records, Schedules)
 ├── database/           # 資料庫 Schema 設計與初始化 SQL 腳本
@@ -52,14 +52,15 @@ Plaintext
 ├── records.html        # 診斷紀錄管理模組
 ├── schedules.html      # 醫護排班管理模組
 └── resources.html      # 醫療資源使用紀錄模組
-📋 ##系統開發亮點##
+
+## 📋 **系統開發亮點**
 資料一致性 (Data Consistency)：在處理醫療資源消耗與病歷更新時，確保資料庫異動的原子性，避免數據遺失或錯誤。
 
 模組化設計：將 API 路由與業務邏輯拆分，提升代碼的可維護性與測試效率。
 
 錯誤攔截機制：實作全域 Error Handling Middleware，提供標準化的 API 錯誤回饋。
 
-🚀 ##未來優化目標##
+## 🚀 **未來優化目標**
 -導入 JWT (JSON Web Token) 實現更安全的狀態保持。
 
 -實作庫存預警系統：當資源消耗至臨界值時自動提醒管理人員。
