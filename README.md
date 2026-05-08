@@ -43,7 +43,7 @@
 工具：使用 MySQL 進行資料庫管理與 SQL 優化。
 
 ## 📂 **專案目錄結構**
-Plaintext
+、、、text
 ├── backend/            # Express Server 與 API 路由 (Patients, Records, Schedules)
 ├── database/           # 資料庫 Schema 設計與初始化 SQL 腳本
 ├── css/                # 系統響應式樣式表
