@@ -30,6 +30,8 @@
 ## 🛠️ **技術架構**
 本專案採用前後端分離的思想設計，重點展示後端資料處理能力：
 
+前端 (Frontend)：HTML, CSS, JavaScript，目前正積極將組件遷移至 React 架構。
+
 後端 (Backend)：使用 Node.js (Express) 建構 RESTful API，處理業務邏輯與資料驗證。
 
 資料庫 (Database)：MySQL。
@@ -37,8 +39,6 @@
 設計具備「參照完整性」的關聯式 Schema。
 
 實作多表關聯查詢 (Join) 處理排班與資源分配邏輯。
-
-前端 (Frontend)：HTML, CSS, JavaScript，目前正積極將組件遷移至 React 架構。
 
 工具：使用 MySQL 進行資料庫管理與 SQL 優化。
 
