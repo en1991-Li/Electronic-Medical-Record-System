@@ -47,12 +47,12 @@
 ├── backend/            # Express Server 與 API 路由 (Patients, Records, Schedules)
 ├── database/           # 資料庫 Schema 設計與初始化 SQL 腳本
 ├── css/                # 系統響應式樣式表
-├── js/                 # 前端邏輯、DOM 操作與 Fetch API 串接
+├── js/                 # 前端邏輯、DOM 操作與 API 串接
 ├── index.html          # 系統登入與驗證入口
-├── patients.html       # 病患資料管理模組
-├── records.html        # 診斷紀錄管理模組
-├── schedules.html      # 醫護排班管理模組
-└── resources.html      # 醫療資源使用紀錄模組
+├── patients.html       # 病患資料管理
+├── records.html        # 診斷紀錄管理
+├── schedules.html      # 醫護排班管理
+└── resources.html      # 醫療資源使用紀錄
 ```
 ## 📋 **系統開發亮點**
 資料一致性 (Data Consistency)：在處理醫療資源消耗與病歷更新時，確保資料庫異動的原子性，避免數據遺失或錯誤。
