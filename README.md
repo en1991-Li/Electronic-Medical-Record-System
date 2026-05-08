@@ -43,7 +43,7 @@
 工具：使用 MySQL 進行資料庫管理與 SQL 優化。
 
 ## 📂 **專案目錄結構**
-、、、text
+```text
 ├── backend/            # Express Server 與 API 路由 (Patients, Records, Schedules)
 ├── database/           # 資料庫 Schema 設計與初始化 SQL 腳本
 ├── css/                # 系統響應式樣式表
@@ -53,7 +53,7 @@
 ├── records.html        # 診斷紀錄管理模組
 ├── schedules.html      # 醫護排班管理模組
 └── resources.html      # 醫療資源使用紀錄模組
-
+```
 ## 📋 **系統開發亮點**
 資料一致性 (Data Consistency)：在處理醫療資源消耗與病歷更新時，確保資料庫異動的原子性，避免數據遺失或錯誤。
 
