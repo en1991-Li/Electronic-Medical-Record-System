@@ -38,7 +38,7 @@
 
 實作多表關聯查詢 (Join) 處理排班與資源分配邏輯。
 
-前端 (Frontend)：HTML5, CSS3, JavaScript (ES6+)，目前正積極將組件遷移至 React 架構。
+前端 (Frontend)：HTML, CSS, JavaScript，目前正積極將組件遷移至 React 架構。
 
 工具：使用 MySQL 進行資料庫管理與 SQL 優化。
 
