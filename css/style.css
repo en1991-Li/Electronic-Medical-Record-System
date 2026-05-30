@@ -10,7 +10,7 @@ body {
     justify-content: center; /* 讓按鈕置中 */
     gap: 10px;               /* 按鈕之間的間距 */
     padding: 15px;
-    background-color: #B2E0E6; /* 維持你原本的粉藍色調 */
+    background-color: #B2E0E6; /* 維持原本的粉藍色調 */
 }
 
 .navbar button {
