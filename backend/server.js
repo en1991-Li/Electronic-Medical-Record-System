@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const db = require('./db'); // 確保指向你合併後的 MySQL db.js
+const db = require('./db'); // 確保指向合併後的 MySQL db.js
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 // --- 中間件設定 ---
 app.use(cors());
 app.use(express.json());
-// 這裡假設你的前端資料夾位在專案根目錄的上一層或是同層，請根據實際結構調整
+// 這裡假設前端資料夾位在專案根目錄的上一層或是同層，請根據實際結構調整
 app.use(express.static(path.join(__dirname, '../frontend'))); 
 
 // 請求日誌
