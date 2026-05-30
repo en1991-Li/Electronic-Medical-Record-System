@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // 確保指向你合併後的 MySQL db.js
+const db = require('../db'); // 確保指向合併後的 MySQL db.js
 
 // 簡化登入（實際應該用密碼驗證）
 router.post('/login', async (req, res) => {
